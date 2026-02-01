@@ -16,21 +16,21 @@ function SearchBox() {
   };
 
   return (
-    <form onSubmit={submitHandler} className="flex items-center gap-2">
+    <form onSubmit={submitHandler} className="flex items-center gap-2 w-full">
       <input
         type="text"
         name="q"
         placeholder="Search products..."
         value={keyword}
         onChange={(e) => setKeyword(e.target.value)}
-        className="flex-1 max-w-[300px] rounded-full border border-gray-300 px-4 py-2 focus:outline-none focus:ring-2 focus:ring-primary-light"
+        className="flex-1 min-w-0 rounded-xl border border-gray-200 bg-surface px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-accent/30 focus:border-accent transition-shadow"
       />
       <button
         type="submit"
-        className="p-2 rounded-full border border-gray-300 hover:bg-primary-light hover:text-white hover:border-primary-light transition-colors"
+        className="shrink-0 p-2.5 rounded-xl bg-primary hover:bg-accent text-white transition-colors duration-200"
         aria-label="Search"
       >
-        <FaSearch />
+        <FaSearch className="w-4 h-4" />
       </button>
     </form>
   );

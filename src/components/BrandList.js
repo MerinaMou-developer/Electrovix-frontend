@@ -25,15 +25,15 @@ const BrandList = ({ selectedBrand, onBrandClick }) => {
       ) : error ? (
         <p className="text-red-500">Error: {error}</p>
       ) : (
-        <ul className="divide-y divide-gray-200 border border-gray-200 rounded-lg overflow-hidden">
+        <ul className="space-y-1">
           {brands.map((brand) => (
             <li
               key={brand._id}
               onClick={() => onBrandClick(brand.slug)}
-              className={`px-4 py-3 cursor-pointer transition-colors ${
+              className={`px-4 py-3 rounded-xl cursor-pointer transition-all duration-200 ${
                 selectedBrand === brand.slug
-                  ? "bg-primary text-white"
-                  : "bg-white hover:bg-gray-50 text-gray-800"
+                  ? "bg-primary text-white font-medium"
+                  : "bg-surface text-gray-700 hover:bg-gray-200"
               }`}
             >
               {brand.icon_class && <i className={brand.icon_class} />}

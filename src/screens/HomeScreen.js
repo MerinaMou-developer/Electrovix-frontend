@@ -103,14 +103,24 @@ function HomeScreen() {
     navigate("/"); // Reset URL to the base without any query params
   };
 
-  return (
-    <div>
-      <ProductCarousel />
-      <h1 className="text-center my-5">Trending Products</h1>
+  const filterTabs = [
+    ["best_seller", "Best Seller"],
+    ["featured", "Featured"],
+    ["latest", "New"],
+    ["discount", "Discount"],
+  ];
 
-      {/* Category, Brand, and Price Filters */}
-      <div className="grid grid-cols-1 md:grid-cols-12 gap-6">
-        <div className="md:col-span-3 space-y-4">
+  return (
+    <div className="animate-fade-in">
+      <div className="full-bleed mb-8">
+        <ProductCarousel />
+      </div>
+      <h1 className="text-2xl md:text-3xl font-bold text-primary text-center my-8">Trending Products</h1>
+
+      <div className="grid grid-cols-1 md:grid-cols-12 gap-8">
+        <aside className="md:col-span-3 space-y-6">
+          <div className="bg-white rounded-2xl border border-gray-100 shadow-card p-5 sticky top-24">
+            <h2 className="text-lg font-bold text-primary mb-4">Filters</h2>
           <CategoryList
             selectedCategory={categorySlug} // Highlight active category
             onCategoryClick={handleCategoryClick} // Callback to handle category click
@@ -122,12 +132,13 @@ function HomeScreen() {
           <PriceFilter onPriceFilterChange={handlePriceFilterChange} />
           <button
             type="button"
-            className="w-full mt-3 bg-primary hover:bg-primary-light text-white font-medium py-2 px-4 rounded flex items-center justify-center gap-2"
+            className="w-full mt-4 flex items-center justify-center gap-2 bg-surface hover:bg-primary hover:text-white text-primary font-semibold py-3 px-4 rounded-xl transition-all duration-200"
             onClick={resetFilters}
           >
-            <FaUndo /> Reset All Filters
+            <FaUndo /> Reset All
           </button>
-        </div>
+          </div>
+        </aside>
         <div className="md:col-span-9">
           {/* Filter Tabs */}
           <div className="flex flex-wrap justify-center gap-2 mb-6">
@@ -152,14 +163,13 @@ function HomeScreen() {
             ))}
           </div>
 
-          {/* Product List */}
           {loading ? (
             <Loader />
           ) : error ? (
             <Message variant="danger">{error}</Message>
           ) : (
             <>
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
                 {products.map((product) => (
                   <Product key={product._id} product={product} />
                 ))}

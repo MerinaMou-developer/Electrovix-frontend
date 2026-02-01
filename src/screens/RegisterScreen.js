@@ -44,13 +44,13 @@ function RegisterScreen() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-r from-indigo-600 to-blue-500 flex items-center justify-center p-4">
-      <div className="w-full max-w-4xl flex flex-col md:flex-row items-center gap-8">
+    <div className="min-h-[80vh] flex items-center justify-center py-12 px-4 bg-gradient-to-br from-primary via-primary-light to-primary">
+      <div className="w-full max-w-4xl flex flex-col md:flex-row items-center gap-8 md:gap-12">
         <div className="hidden md:block md:w-1/2 text-center">
-          <img src="/images/Signup-rafiki.png" alt="Register" className="max-w-full h-auto" />
+          <img src="/images/Signup-rafiki.png" alt="Create account" className="max-w-full h-auto rounded-2xl" />
         </div>
-        <div className="w-full md:w-1/2 max-w-md bg-white rounded-xl shadow-lg p-6 max-h-[90vh] overflow-y-auto">
-          <h1 className="text-2xl font-bold text-center mb-6">Create Account</h1>
+        <div className="w-full md:w-1/2 max-w-md bg-white rounded-2xl shadow-card-hover border border-gray-100 p-8 max-h-[90vh] overflow-y-auto">
+          <h1 className="text-2xl font-bold text-primary text-center mb-6">Create Account</h1>
           {message && <Message variant="danger">{message}</Message>}
           {error && <Message variant="danger">{error}</Message>}
           {loading && <Loader />}
@@ -63,7 +63,7 @@ function RegisterScreen() {
                 placeholder="Enter your full name"
                 value={name}
                 onChange={(e) => setName(e.target.value)}
-                className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                className="w-full border border-gray-200 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-accent/30 focus:border-accent"
               />
             </div>
             <div>
@@ -74,7 +74,7 @@ function RegisterScreen() {
                 placeholder="Enter your email address"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                className="w-full border border-gray-200 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-accent/30 focus:border-accent"
               />
             </div>
             <div>
@@ -85,7 +85,7 @@ function RegisterScreen() {
                 placeholder="Enter a secure password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                className="w-full border border-gray-200 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-accent/30 focus:border-accent"
               />
             </div>
             <div>
@@ -96,7 +96,7 @@ function RegisterScreen() {
                 placeholder="Re-enter your password"
                 value={confirmPassword}
                 onChange={(e) => setConfirmPassword(e.target.value)}
-                className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                className="w-full border border-gray-200 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-accent/30 focus:border-accent"
               />
             </div>
             <button type="submit" className="w-full bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded-lg transition-colors">
@@ -105,7 +105,7 @@ function RegisterScreen() {
           </form>
           <p className="text-center mt-4 text-gray-600">
             Already have an account?{" "}
-            <Link to={redirect ? `/login?redirect=${redirect}` : "/login"} className="text-primary font-semibold hover:underline">
+            <Link to={redirect ? `/login?redirect=${redirect}` : "/login"} className="text-accent font-semibold hover:underline no-underline">
               Sign In
             </Link>
           </p>

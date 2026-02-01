@@ -37,17 +37,16 @@ function PaymentScreen() {
   return (
     <FormContainer>
       <CheckoutSteps step1 step2 step3 />
-      <h1 className="text-2xl font-bold mb-4">Payment Method</h1>
+      <h1 className="text-2xl font-bold text-primary mb-6">Payment Method</h1>
       {error && <Message variant="danger">{error}</Message>}
       <form onSubmit={submitHandler} className="space-y-4">
-        <div>
-          <label className="block text-sm font-medium text-gray-700 mb-2">Select Method</label>
-          <label className="flex items-center gap-2 cursor-pointer">
-            <input type="radio" name="paymentMethod" value="SSLCOMMERZ" checked={paymentMethod === "SSLCOMMERZ"} onChange={(e) => setPaymentMethod(e.target.value)} className="w-4 h-4" />
-            <span>SSLCOMMERZ</span>
+        <div className="bg-surface rounded-xl p-4 border border-gray-100">
+          <label className="flex items-center gap-3 cursor-pointer">
+            <input type="radio" name="paymentMethod" value="SSLCOMMERZ" checked={paymentMethod === "SSLCOMMERZ"} onChange={(e) => setPaymentMethod(e.target.value)} className="w-4 h-4 text-accent focus:ring-accent" />
+            <span className="font-medium text-primary">SSLCOMMERZ</span>
           </label>
         </div>
-        <button type="submit" className="mt-4 bg-primary hover:bg-primary-light text-white font-semibold py-2 px-4 rounded-lg transition-colors">Continue</button>
+        <button type="submit" className="w-full mt-6 bg-primary hover:bg-accent text-white font-semibold py-3 px-4 rounded-xl transition-all duration-200 hover:shadow-glow">Continue</button>
       </form>
     </FormContainer>
   );

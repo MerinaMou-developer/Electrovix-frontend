@@ -1,70 +1,23 @@
 import React from "react";
 
-function Rating({ value, text, color }) {
+function Rating({ value, text, color = "#fbbf24" }) {
   return (
-    <div className="rating">
-      <span>
-        <i
-          style={{ color }}
-          className={
-            value >= 1
-              ? "fas fa-star"
-              : value >= 0.5
-              ? "fas fa-star-half-alt"
-              : "far fa-star" // wrap this in quotes
-          }
-        ></i>
-      </span>
-      <span>
-        <i
-          style={{ color }}
-          className={
-            value >= 2
-              ? "fas fa-star"
-              : value >= 1.5
-              ? "fas fa-star-half-alt"
-              : "far fa-star" // wrap this in quotes
-          }
-        ></i>
-      </span>
-      <span>
-        <i
-          style={{ color }}
-          className={
-            value >= 3
-              ? "fas fa-star"
-              : value >= 2.5
-              ? "fas fa-star-half-alt"
-              : "far fa-star" // wrap this in quotes
-          }
-        ></i>
-      </span>
-      <span>
-        <i
-          style={{ color }}
-          className={
-            value >= 4
-              ? "fas fa-star"
-              : value >= 3.5
-              ? "fas fa-star-half-alt"
-              : "far fa-star" // wrap this in quotes
-          }
-        ></i>
-      </span>
-      <span>
-        <i
-          style={{ color }}
-          className={
-            value >= 5
-              ? "fas fa-star"
-              : value >= 4.5
-              ? "fas fa-star-half-alt"
-              : "far fa-star" // wrap this in quotes
-          }
-        ></i>
-      </span>
-
-      <span>{text && text}</span>
+    <div className="rating flex items-center gap-1 flex-wrap">
+      {[1, 2, 3, 4, 5].map((star) => (
+        <span key={star}>
+          <i
+            style={{ color }}
+            className={
+              value >= star
+                ? "fas fa-star"
+                : value >= star - 0.5
+                ? "fas fa-star-half-alt"
+                : "far fa-star"
+            }
+          />
+        </span>
+      ))}
+      {text && <span className="text-gray-500 text-sm ml-1">{text}</span>}
     </div>
   );
 }

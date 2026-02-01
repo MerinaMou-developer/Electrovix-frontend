@@ -19,14 +19,16 @@ import UserEditScreen from "./screens/UserEditScreen";
 import ProductListScreen from "./screens/ProductListScreen";
 import ProductEditScreen from "./screens/ProductEditScreen";
 import OrderListScreen from "./screens/OrderListScreen";
+import AboutScreen from "./screens/AboutScreen";
+import ContactScreen from "./screens/ContactScreen";
 
 function App() {
   return (
     <Router>
       <Header />
       <Toast />
-      <main className="py-6 min-h-[80vh]">
-        <div className="container mx-auto px-4">
+      <main className="py-8 min-h-[80vh] bg-surface">
+        <div className="container mx-auto px-4 max-w-7xl">
           <Routes>
             <Route path="/" element={<HomeScreen />} exact />
             <Route path="/login" element={<LoginScreen />} />
@@ -39,6 +41,8 @@ function App() {
             <Route path="/order/:id" element={<OrderScreen />} />
             <Route path="/product/:id" element={<ProductScreen />} />
             <Route path="/cart/:id?" element={<CartScreen />} />
+            <Route path="/about" element={<AboutScreen />} />
+            <Route path="/contact" element={<ContactScreen />} />
             <Route path="/admin/userlist" element={<UserListScreen />} />
             <Route path="/admin/user/:id/edit" element={<UserEditScreen />} />
             <Route path="/admin/productlist" element={<ProductListScreen />} />

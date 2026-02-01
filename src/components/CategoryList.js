@@ -30,15 +30,15 @@ const CategoryList = ({ selectedCategory, onCategoryClick }) => {
       ) : error ? (
         <p className="text-red-500">Error: {error}</p>
       ) : (
-        <ul className="divide-y divide-gray-200 border border-gray-200 rounded-lg overflow-hidden">
+        <ul className="space-y-1">
           {categories.map((category) => (
             <li
               key={category._id}
               onClick={() => onCategoryClick(category.slug)}
-              className={`px-4 py-3 cursor-pointer transition-colors ${
+              className={`px-4 py-3 rounded-xl cursor-pointer transition-all duration-200 ${
                 selectedCategory === category.slug
-                  ? "bg-primary text-white"
-                  : "bg-white hover:bg-gray-50 text-gray-800"
+                  ? "bg-primary text-white font-medium"
+                  : "bg-surface text-gray-700 hover:bg-gray-200"
               }`}
             >
               {category.icon_class && <i className={category.icon_class} />}

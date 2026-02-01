@@ -20,7 +20,7 @@ function Paginate({
   if (pages <= 1) return null;
 
   return (
-    <div className="flex justify-center gap-1 my-4">
+    <div className="flex justify-center gap-2 my-8 flex-wrap">
       {[...Array(pages).keys()].map((x) => {
         const p = x + 1;
         const isActive = p === page;
@@ -28,10 +28,10 @@ function Paginate({
           <Link
             key={p}
             to={`${getBasePath()}${getSearchQuery(p)}`}
-            className={`w-10 h-10 flex items-center justify-center rounded-full font-medium transition-colors ${
+            className={`min-w-[2.5rem] h-10 flex items-center justify-center rounded-xl font-medium transition-all duration-200 ${
               isActive
-                ? "bg-primary-light text-white border-2 border-accent"
-                : "text-blue-600 hover:bg-gray-100 border border-gray-300"
+                ? "bg-primary text-white shadow-glow"
+                : "bg-surface text-gray-700 hover:bg-gray-200 border border-gray-200"
             }`}
           >
             {p}

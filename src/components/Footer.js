@@ -1,42 +1,85 @@
 import React from "react";
-import { FaFacebook, FaTwitter, FaInstagram, FaLinkedin, FaEnvelope, FaPhone } from "react-icons/fa";
+import { Link } from "react-router-dom";
+import { FaFacebookF, FaTwitter, FaInstagram, FaLinkedinIn, FaEnvelope, FaPhone, FaHeart } from "react-icons/fa";
 
 function Footer() {
+  const currentYear = new Date().getFullYear();
+
   return (
-    <footer className="bg-primary text-gray-200 pt-8 pb-6 text-sm">
-      <div className="container mx-auto px-4">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-6">
-          <div>
-            <h5 className="text-white uppercase font-bold mb-3 border-b-2 border-yellow-400 inline-block pb-1">About Us</h5>
-            <p className="text-gray-300 leading-relaxed">
-              YourStore is your one-stop destination for the best shopping experience. We provide high-quality products at unbeatable prices with fast delivery services.
+    <footer className="bg-primary text-white">
+      <div className="container mx-auto px-4 py-12 md:py-16">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 lg:gap-12">
+          {/* Brand */}
+          <div className="lg:col-span-1">
+            <Link to="/" className="text-2xl font-extrabold text-white no-underline hover:text-accent transition-colors">
+              Electrovix
+            </Link>
+            <p className="mt-4 text-gray-300 text-sm leading-relaxed max-w-xs">
+              Your trusted e-commerce destination. Fast delivery, secure payment, and a seamless shopping experience.
             </p>
-          </div>
-          <div>
-            <h5 className="text-white uppercase font-bold mb-3 border-b-2 border-yellow-400 inline-block pb-1">Quick Links</h5>
-            <ul className="list-none space-y-1">
-              <li><a href="/shop" className="text-gray-300 hover:text-yellow-400 no-underline">Shop</a></li>
-              <li><a href="/about" className="text-gray-300 hover:text-yellow-400 no-underline">About Us</a></li>
-              <li><a href="/contact" className="text-gray-300 hover:text-yellow-400 no-underline">Contact Us</a></li>
-              <li><a href="/privacy" className="text-gray-300 hover:text-yellow-400 no-underline">Privacy Policy</a></li>
-            </ul>
-          </div>
-          <div>
-            <h5 className="text-white uppercase font-bold mb-3 border-b-2 border-yellow-400 inline-block pb-1">Contact Us</h5>
-            <p className="text-gray-300 flex items-center gap-2"><FaEnvelope /> support@yourstore.com</p>
-            <p className="text-gray-300 flex items-center gap-2"><FaPhone /> +123 456 7890</p>
-            <h6 className="text-white mt-4 mb-2">Follow Us</h6>
-            <div className="flex gap-3">
-              <a href="https://facebook.com" className="text-gray-300 hover:text-yellow-400" aria-label="Facebook"><FaFacebook size={24} /></a>
-              <a href="https://twitter.com" className="text-gray-300 hover:text-yellow-400" aria-label="Twitter"><FaTwitter size={24} /></a>
-              <a href="https://instagram.com" className="text-gray-300 hover:text-yellow-400" aria-label="Instagram"><FaInstagram size={24} /></a>
-              <a href="https://linkedin.com" className="text-gray-300 hover:text-yellow-400" aria-label="LinkedIn"><FaLinkedin size={24} /></a>
+            <div className="mt-6 flex gap-4">
+              <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" className="w-10 h-10 rounded-xl bg-white/10 flex items-center justify-center text-gray-300 hover:bg-accent hover:text-white transition-all duration-200" aria-label="Facebook">
+                <FaFacebookF className="w-4 h-4" />
+              </a>
+              <a href="https://twitter.com" target="_blank" rel="noopener noreferrer" className="w-10 h-10 rounded-xl bg-white/10 flex items-center justify-center text-gray-300 hover:bg-accent hover:text-white transition-all duration-200" aria-label="Twitter">
+                <FaTwitter className="w-4 h-4" />
+              </a>
+              <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" className="w-10 h-10 rounded-xl bg-white/10 flex items-center justify-center text-gray-300 hover:bg-accent hover:text-white transition-all duration-200" aria-label="Instagram">
+                <FaInstagram className="w-4 h-4" />
+              </a>
+              <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" className="w-10 h-10 rounded-xl bg-white/10 flex items-center justify-center text-gray-300 hover:bg-accent hover:text-white transition-all duration-200" aria-label="LinkedIn">
+                <FaLinkedinIn className="w-4 h-4" />
+              </a>
             </div>
           </div>
+
+          {/* Quick Links */}
+          <div>
+            <h5 className="text-white font-bold text-sm uppercase tracking-wider mb-4">Quick Links</h5>
+            <ul className="space-y-3">
+              <li><Link to="/" className="text-gray-300 hover:text-accent text-sm no-underline transition-colors">Shop All</Link></li>
+              <li><Link to="/cart" className="text-gray-300 hover:text-accent text-sm no-underline transition-colors">Cart</Link></li>
+              <li><Link to="/about" className="text-gray-300 hover:text-accent text-sm no-underline transition-colors">About Us</Link></li>
+              <li><Link to="/contact" className="text-gray-300 hover:text-accent text-sm no-underline transition-colors">Contact</Link></li>
+              <li><Link to="/" className="text-gray-300 hover:text-accent text-sm no-underline transition-colors">Privacy Policy</Link></li>
+            </ul>
+          </div>
+
+          {/* Support */}
+          <div>
+            <h5 className="text-white font-bold text-sm uppercase tracking-wider mb-4">Support</h5>
+            <ul className="space-y-3">
+              <li><a href="/faq" className="text-gray-300 hover:text-accent text-sm no-underline transition-colors">FAQ</a></li>
+              <li><a href="/shipping" className="text-gray-300 hover:text-accent text-sm no-underline transition-colors">Shipping Info</a></li>
+              <li><a href="/returns" className="text-gray-300 hover:text-accent text-sm no-underline transition-colors">Returns</a></li>
+              <li><a href="/track" className="text-gray-300 hover:text-accent text-sm no-underline transition-colors">Track Order</a></li>
+            </ul>
+          </div>
+
+          {/* Contact */}
+          <div>
+            <h5 className="text-white font-bold text-sm uppercase tracking-wider mb-4">Contact</h5>
+            <ul className="space-y-4">
+              <li className="flex items-center gap-3 text-gray-300 text-sm">
+                <FaEnvelope className="w-4 h-4 text-accent shrink-0" />
+                <a href="mailto:support@electrovix.com" className="hover:text-accent transition-colors no-underline">support@electrovix.com</a>
+              </li>
+              <li className="flex items-center gap-3 text-gray-300 text-sm">
+                <FaPhone className="w-4 h-4 text-accent shrink-0" />
+                <a href="tel:+8801234567890" className="hover:text-accent transition-colors no-underline">+880 123 456 7890</a>
+              </li>
+            </ul>
+          </div>
         </div>
-        <hr className="border-gray-600 my-4" />
-        <div className="text-center text-gray-300">
-          <p>&copy; {new Date().getFullYear()} YourStore. All rights reserved.</p>
+
+        <div className="mt-12 pt-8 border-t border-white/10 flex flex-col sm:flex-row items-center justify-between gap-4">
+          <p className="text-gray-400 text-sm">
+            © {currentYear} Electrovix. All rights reserved. Made with <FaHeart className="inline-block w-3.5 h-3.5 text-accent" /> for shoppers.
+          </p>
+          <div className="flex gap-6 text-sm">
+            <Link to="/" className="text-gray-400 hover:text-accent transition-colors no-underline">Terms</Link>
+            <Link to="/" className="text-gray-400 hover:text-accent transition-colors no-underline">Privacy</Link>
+          </div>
         </div>
       </div>
     </footer>
