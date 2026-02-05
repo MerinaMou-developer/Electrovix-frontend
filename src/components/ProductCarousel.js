@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
 import Loader from "./Loader";
 import Message from "./Message";
 import { listTopProducts } from "../actions/productActions";
-import { FaChevronLeft, FaChevronRight, FaShoppingBag, FaTruck, FaShieldAlt } from "react-icons/fa";
+import { FaChevronLeft, FaChevronRight, FaShoppingBag } from "react-icons/fa";
 
 import { API_BASE_URL } from "../config";
 
@@ -39,45 +39,36 @@ function ProductCarousel() {
   const current = products[index];
 
   return (
-    <section className="relative w-full rounded-2xl overflow-hidden bg-white border border-slate-200 shadow-card-hover">
-      <div className="grid grid-cols-1 md:grid-cols-2 min-h-[340px] md:min-h-[400px]">
-        {/* Left: pure white product shot — like major e‑commerce sites */}
-        <div key={`img-${index}`} className="relative order-2 md:order-1 bg-white flex items-center justify-center p-8 md:p-12 border-r border-slate-100">
+    <section className="relative w-full rounded-2xl overflow-hidden shadow-lg">
+      {/* Compact hero: warm gradient, single row, image-focused */}
+      <div className="grid grid-cols-1 md:grid-cols-5 min-h-[220px] md:min-h-[260px] bg-gradient-to-r from-amber-50 via-orange-50 to-amber-100 border border-amber-200/60">
+        {/* Image: 3 cols on desktop, larger and centered */}
+        <div key={`img-${index}`} className="relative md:col-span-3 flex items-center justify-center p-6 md:p-8 order-2 md:order-1">
           <Link to={`/product/${current._id}`} className="block w-full h-full flex items-center justify-center group">
             <img
               src={`${API_BASE_URL}${current.image}`}
               alt={current.name}
-              className="max-h-[200px] md:max-h-[260px] w-auto object-contain drop-shadow-[0_20px_40px_rgba(0,0,0,0.12)] group-hover:scale-105 transition-transform duration-500"
+              className="max-h-[160px] md:max-h-[200px] w-auto object-contain drop-shadow-xl group-hover:scale-105 transition-transform duration-500"
             />
           </Link>
         </div>
 
-        {/* Right: dark panel with clear hierarchy + CTA */}
-        <div className="relative order-1 md:order-2 bg-gradient-to-b from-primary to-primary-dark flex flex-col justify-center px-6 md:px-12 py-8 md:py-12">
+        {/* Content: 2 cols, compact */}
+        <div className="relative md:col-span-2 flex flex-col justify-center px-6 md:px-8 py-6 md:py-8 order-1 md:order-2">
           <div key={index} className="animate-fade-in-fast">
-            <span className="inline-block bg-accent text-white font-bold text-[10px] uppercase tracking-[0.2em] px-3 py-1.5 rounded mb-4">
+            <span className="inline-block bg-amber-500 text-white text-[10px] font-bold uppercase tracking-wider px-2.5 py-1 rounded-md mb-2">
               Featured
             </span>
-            <h2 className="text-2xl md:text-3xl lg:text-4xl font-extrabold text-white leading-tight mb-2">
+            <h2 className="text-lg md:text-xl font-bold text-slate-800 leading-tight mb-1 line-clamp-2">
               {current.name}
             </h2>
-            <p className="text-slate-300 text-base md:text-lg mb-5">
-              ৳{current.price} — Fast delivery & secure payment
-            </p>
+            <p className="text-amber-700 font-semibold text-lg mb-4">৳{current.price}</p>
             <Link
               to={`/product/${current._id}`}
-              className="inline-flex items-center gap-2 bg-accent hover:bg-accent-light text-white font-bold py-3 px-6 rounded-xl transition-all duration-200 hover:shadow-glow w-fit no-underline"
+              className="inline-flex items-center gap-2 bg-slate-800 hover:bg-slate-700 text-white font-semibold py-2.5 px-5 rounded-xl text-sm transition-all duration-200 w-fit no-underline"
             >
               <FaShoppingBag className="w-4 h-4" /> Shop Now
             </Link>
-            <div className="mt-5 flex items-center gap-4 text-slate-400 text-xs">
-              <span className="flex items-center gap-1.5">
-                <FaTruck className="w-3.5 h-3.5 text-accent" /> Free delivery over ৳500
-              </span>
-              <span className="flex items-center gap-1.5">
-                <FaShieldAlt className="w-3.5 h-3.5 text-accent" /> Secure payment
-              </span>
-            </div>
           </div>
 
           {products.length > 1 && (
@@ -85,16 +76,16 @@ function ProductCarousel() {
               <button
                 type="button"
                 onClick={() => goTo(-1)}
-                className="absolute left-3 top-1/2 -translate-y-1/2 w-11 h-11 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center text-white transition-all border border-white/10"
-                aria-label="Previous slide"
+                className="absolute left-2 top-1/2 -translate-y-1/2 w-9 h-9 rounded-full bg-white/80 hover:bg-white shadow-md flex items-center justify-center text-slate-700 transition-all"
+                aria-label="Previous"
               >
                 <FaChevronLeft className="w-4 h-4" />
               </button>
               <button
                 type="button"
                 onClick={() => goTo(1)}
-                className="absolute right-3 top-1/2 -translate-y-1/2 w-11 h-11 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center text-white transition-all border border-white/10"
-                aria-label="Next slide"
+                className="absolute right-2 top-1/2 -translate-y-1/2 w-9 h-9 rounded-full bg-white/80 hover:bg-white shadow-md flex items-center justify-center text-slate-700 transition-all"
+                aria-label="Next"
               >
                 <FaChevronRight className="w-4 h-4" />
               </button>
@@ -103,20 +94,18 @@ function ProductCarousel() {
         </div>
       </div>
 
-      {/* Pagination dots — active orange, inactive dark gray */}
+      {/* Dots */}
       {products.length > 1 && (
-        <div className="absolute bottom-5 left-1/2 -translate-x-1/2 z-10 flex items-center gap-2">
+        <div className="absolute bottom-3 left-1/2 -translate-x-1/2 z-10 flex items-center gap-1.5">
           {products.map((_, i) => (
             <button
               key={i}
               type="button"
               onClick={() => setIndex(i)}
-              className={`rounded-full transition-all duration-300 ${
-                i === index
-                  ? "h-2 w-8 bg-accent"
-                  : "h-2 w-2 bg-slate-500 hover:bg-slate-400"
+              className={`rounded-full transition-all ${
+                i === index ? "h-1.5 w-6 bg-amber-600" : "h-1.5 w-1.5 bg-amber-300/60 hover:bg-amber-400"
               }`}
-              aria-label={`Go to slide ${i + 1}`}
+              aria-label={`Slide ${i + 1}`}
             />
           ))}
         </div>

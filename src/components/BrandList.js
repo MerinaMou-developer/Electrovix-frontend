@@ -37,8 +37,8 @@ const BrandList = ({ selectedBrand, onBrandClick }) => {
               onClick={() => onBrandClick(brand.slug)}
               className={`px-4 py-3 rounded-xl cursor-pointer transition-all duration-200 ${
                 selectedBrand === brand.slug
-                  ? "bg-primary text-white font-medium"
-                  : "bg-surface text-gray-700 hover:bg-gray-200"
+                  ? "bg-primary text-white font-medium shadow-md"
+                  : "bg-slate-100 text-slate-700 hover:bg-slate-200 hover:border-slate-300"
               }`}
             >
               {brand.icon_class && <i className={brand.icon_class} />}

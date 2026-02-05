@@ -6,7 +6,7 @@ function Footer() {
   const currentYear = new Date().getFullYear();
 
   return (
-    <footer className="bg-primary text-white">
+    <footer className="bg-nav-gradient text-white border-t border-white/5">
       <div className="container mx-auto px-4 py-12 md:py-16">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 lg:gap-12">
           {/* Brand */}
@@ -37,7 +37,7 @@ function Footer() {
           <div>
             <h5 className="text-white font-bold text-sm uppercase tracking-wider mb-4">Quick Links</h5>
             <ul className="space-y-3">
-              <li><Link to="/" className="text-gray-300 hover:text-accent text-sm no-underline transition-colors">Shop All</Link></li>
+              <li><Link to="/products" className="text-gray-300 hover:text-accent text-sm no-underline transition-colors">Shop All</Link></li>
               <li><Link to="/cart" className="text-gray-300 hover:text-accent text-sm no-underline transition-colors">Cart</Link></li>
               <li><Link to="/about" className="text-gray-300 hover:text-accent text-sm no-underline transition-colors">About Us</Link></li>
               <li><Link to="/contact" className="text-gray-300 hover:text-accent text-sm no-underline transition-colors">Contact</Link></li>

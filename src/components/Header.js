@@ -3,7 +3,7 @@ import { Link, useLocation } from "react-router-dom";
 import SearchBox from "./SearchBox";
 import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../actions/userActions";
-import { FaShoppingCart, FaUser, FaBars, FaTimes, FaChevronDown } from "react-icons/fa";
+import { FaShoppingCart, FaUser, FaBars, FaTimes, FaChevronDown, FaTruck, FaShieldAlt } from "react-icons/fa";
 
 function Header() {
   const dispatch = useDispatch();
@@ -11,8 +11,6 @@ function Header() {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [adminOpen, setAdminOpen] = useState(false);
   const [userOpen, setUserOpen] = useState(false);
-  const [categoriesOpen, setCategoriesOpen] = useState(false);
-
   const userLogin = useSelector((state) => state.userLogin);
   const { userInfo } = userLogin;
   const cart = useSelector((state) => state.cart);
@@ -28,55 +26,48 @@ function Header() {
   const isActive = (path) => location.pathname === path;
 
   const mainLinks = [
-    { to: "/", label: "Shop" },
-    { to: "/", label: "Deals" },
+    { to: "/products", label: "Products" },
     { to: "/about", label: "About" },
     { to: "/contact", label: "Contact" },
   ];
 
   return (
-    <header className="sticky top-0 z-50 bg-white border-b border-slate-100 shadow-soft">
-      {/* Single compact nav bar */}
+    <header className="sticky top-0 z-50 bg-nav-gradient shadow-nav-shadow backdrop-blur-md border-b border-white/5">
+      {/* Promo strip - compact */}
+      <div className="bg-primary-dark/90 py-1.5">
+        <div className="container mx-auto px-4 flex flex-wrap items-center justify-center gap-4 text-[11px] font-medium text-slate-300">
+          <span className="flex items-center gap-2">
+            <FaTruck className="w-3.5 h-3.5 text-accent" /> Free delivery over ৳500
+          </span>
+          <span className="flex items-center gap-2">
+            <FaShieldAlt className="w-3.5 h-3.5 text-accent" /> Secure payment
+          </span>
+        </div>
+      </div>
+      {/* Main nav */}
       <nav className="container mx-auto px-4 py-3">
         <div className="flex items-center justify-between gap-3">
           <Link
             to="/"
-            className="text-xl font-extrabold tracking-tight text-primary no-underline hover:text-accent transition-colors shrink-0"
+            className="text-xl font-extrabold tracking-tight text-white no-underline hover:text-accent transition-colors shrink-0"
           >
             Electrovix
           </Link>
 
           <button
             type="button"
-            className="md:hidden p-2 rounded-lg text-slate-600 hover:bg-slate-100"
+            className="md:hidden p-2 rounded-lg text-slate-300 hover:bg-white/10 hover:text-white"
             onClick={() => setMobileOpen(!mobileOpen)}
             aria-label="Toggle menu"
           >
             {mobileOpen ? <FaTimes className="w-5 h-5" /> : <FaBars className="w-5 h-5" />}
           </button>
 
-          <div className={`flex-1 md:flex md:items-center md:justify-between gap-4 ${mobileOpen ? "block absolute left-0 right-0 top-full mt-0 bg-white border-t border-slate-100 shadow-lg px-4 py-3" : "hidden md:flex"}`}>
+          <div className={`flex-1 md:flex md:items-center md:justify-between gap-4 ${mobileOpen ? "block absolute left-0 right-0 top-full mt-0 bg-primary/95 backdrop-blur-xl border-t border-white/10 shadow-xl px-4 py-4" : "hidden md:flex"}`}>
             <div className="flex flex-col md:flex-row md:items-center gap-3 md:gap-5">
-              <div className="relative">
-                <button
-                  type="button"
-                  className="flex items-center gap-1 text-sm font-medium text-slate-700 hover:text-accent py-2"
-                  onClick={() => setCategoriesOpen(!categoriesOpen)}
-                >
-                  Categories <FaChevronDown className={`w-3 transition-transform ${categoriesOpen ? "rotate-180" : ""}`} />
-                </button>
-                {categoriesOpen && (
-                  <div className="absolute left-0 mt-0.5 w-44 bg-white rounded-lg shadow-card-hover border border-slate-100 py-1.5 z-50">
-                    <Link to="/?category_slug=electronics" className="block px-3 py-2 text-sm text-slate-700 hover:bg-slate-50 hover:text-accent" onClick={() => setCategoriesOpen(false)}>Electronics</Link>
-                    <Link to="/?category_slug=fashion" className="block px-3 py-2 text-sm text-slate-700 hover:bg-slate-50 hover:text-accent" onClick={() => setCategoriesOpen(false)}>Fashion</Link>
-                    <Link to="/?category_slug=home" className="block px-3 py-2 text-sm text-slate-700 hover:bg-slate-50 hover:text-accent" onClick={() => setCategoriesOpen(false)}>Home</Link>
-                  </div>
-                )}
-              </div>
-
               <div className="hidden lg:flex items-center gap-1 text-sm">
                 {mainLinks.map(({ to, label }) => (
-                  <Link key={label} to={to} className={`px-3 py-2 rounded-lg no-underline ${isActive(to) && to !== "/" ? "text-accent font-medium" : "text-slate-600 hover:text-accent hover:bg-slate-50"}`}>
+                  <Link key={label} to={to} className={`px-3 py-2 rounded-lg no-underline transition-colors ${isActive(to) ? "text-accent font-medium" : "text-slate-200 hover:text-white hover:bg-white/5"}`}>
                     {label}
                   </Link>
                 ))}
@@ -89,11 +80,11 @@ function Header() {
 
             <div className="flex flex-col md:flex-row md:items-center gap-2 md:gap-3 pt-3 md:pt-0 border-t md:border-t-0 border-slate-100">
               {!userInfo && (
-                <Link to="/login" className={`inline-flex items-center gap-1.5 text-sm font-medium py-2 px-3 rounded-lg no-underline ${isActive("/login") ? "text-accent" : "text-slate-700 hover:text-accent"}`}>
+                <Link to="/login" className={`inline-flex items-center gap-1.5 text-sm font-medium py-2 px-4 rounded-xl no-underline transition-all ${isActive("/login") ? "bg-accent text-white" : "text-slate-200 hover:text-accent hover:bg-white/5"}`}>
                   <FaUser className="w-4 h-4" /> Sign In
                 </Link>
               )}
-              <Link to="/cart" className="inline-flex items-center gap-1.5 text-sm font-medium text-slate-700 hover:text-accent py-2 px-3 rounded-lg hover:bg-slate-50 no-underline">
+              <Link to="/cart" className="inline-flex items-center gap-1.5 text-sm font-medium text-slate-200 hover:text-white py-2 px-3 rounded-xl hover:bg-white/5 no-underline transition-all">
                 <span className="relative">
                   <FaShoppingCart className="w-4 h-4" />
                   {cartCount > 0 && (
@@ -106,7 +97,7 @@ function Header() {
               </Link>
               {userInfo?.isAdmin && (
                 <div className="relative">
-                  <button type="button" className={`flex items-center gap-1 text-sm font-medium py-2 px-3 rounded-lg ${isActive("/admin/userlist") || isActive("/admin/productlist") || isActive("/admin/orderlist") ? "text-accent bg-accent/10" : "text-slate-700 hover:text-accent hover:bg-slate-50"}`} onClick={() => { setAdminOpen(!adminOpen); setUserOpen(false); }}>
+                  <button type="button" className={`flex items-center gap-1 text-sm font-medium py-2 px-3 rounded-xl transition-all ${isActive("/admin/userlist") || isActive("/admin/productlist") || isActive("/admin/orderlist") ? "text-accent bg-accent/20" : "text-slate-200 hover:text-white hover:bg-white/5"}`} onClick={() => { setAdminOpen(!adminOpen); setUserOpen(false); }}>
                     Admin <FaChevronDown className={`w-3 transition-transform ${adminOpen ? "rotate-180" : ""}`} />
                   </button>
                   {adminOpen && (
@@ -120,7 +111,7 @@ function Header() {
               )}
               {userInfo && (
                 <div className="relative">
-                  <button type="button" className={`flex items-center gap-1 text-sm font-medium py-2 px-3 rounded-lg ${isActive("/profile") ? "text-accent bg-accent/10" : "text-slate-700 hover:text-accent hover:bg-slate-50"}`} onClick={() => { setUserOpen(!userOpen); setAdminOpen(false); }}>
+                  <button type="button" className={`flex items-center gap-1 text-sm font-medium py-2 px-3 rounded-xl transition-all ${isActive("/profile") ? "text-accent bg-accent/20" : "text-slate-200 hover:text-white hover:bg-white/5"}`} onClick={() => { setUserOpen(!userOpen); setAdminOpen(false); }}>
                     <FaUser className="w-4 h-4" /> {userInfo.name?.split(" ")[0]} <FaChevronDown className={`w-3 transition-transform ${userOpen ? "rotate-180" : ""}`} />
                   </button>
                   {userOpen && (
@@ -134,12 +125,12 @@ function Header() {
             </div>
           </div>
         </div>
-        {/* Mobile: show Shop/About/Contact under nav when open */}
+        {/* Mobile: show Products/About/Contact under nav when open */}
         {mobileOpen && (
-          <div className="md:hidden flex flex-wrap gap-2 pt-2 border-t border-slate-100">
-            <Link to="/" className="text-sm text-slate-600 hover:text-accent px-2 py-1 no-underline">Shop</Link>
-            <Link to="/about" className="text-sm text-slate-600 hover:text-accent px-2 py-1 no-underline">About</Link>
-            <Link to="/contact" className="text-sm text-slate-600 hover:text-accent px-2 py-1 no-underline">Contact</Link>
+          <div className="md:hidden flex flex-wrap gap-2 pt-2 border-t border-white/10">
+            <Link to="/products" className="text-sm text-slate-200 hover:text-accent px-2 py-1 no-underline">Products</Link>
+            <Link to="/about" className="text-sm text-slate-200 hover:text-accent px-2 py-1 no-underline">About</Link>
+            <Link to="/contact" className="text-sm text-slate-200 hover:text-accent px-2 py-1 no-underline">Contact</Link>
           </div>
         )}
       </nav>

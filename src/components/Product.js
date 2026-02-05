@@ -24,9 +24,9 @@ function Product({ product }) {
   const percentageOff = product.discountPercentage ? `${product.discountPercentage}% OFF` : null;
 
   return (
-    <div className="group relative bg-white rounded-2xl border border-gray-100 overflow-hidden shadow-card hover:shadow-card-hover transition-all duration-300 flex flex-col h-full min-h-[420px] animate-slide-up">
+    <div className="group relative bg-white rounded-2xl border border-slate-200/80 overflow-hidden shadow-card hover:shadow-card-hover transition-all duration-300 flex flex-col h-full min-h-[420px] animate-slide-up hover:-translate-y-1">
       <Link to={`/product/${product._id}`} className="block flex-1 flex flex-col">
-        <div className="relative aspect-square overflow-hidden bg-gray-50">
+        <div className="relative aspect-square overflow-hidden bg-slate-50">
           {product.discountPercentage > 0 && (
             <span className="absolute top-3 left-3 z-10 bg-accent text-white text-xs font-bold px-2.5 py-1 rounded-lg shadow">
               {percentageOff}

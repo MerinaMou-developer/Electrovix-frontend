@@ -4,6 +4,7 @@ import Header from "./components/Header";
 import Footer from "./components/Footer";
 import Toast from "./components/Toast";
 import HomeScreen from "./screens/HomeScreen";
+import ProductsScreen from "./screens/ProductsScreen";
 import ProductScreen from "./screens/ProductScreen";
 import CartScreen from "./screens/CartScreen";
 import LoginScreen from "./screens/LoginScreen";
@@ -27,10 +28,11 @@ function App() {
     <Router>
       <Header />
       <Toast />
-      <main className="py-8 min-h-[80vh] bg-surface">
+      <main className="py-8 min-h-[80vh] relative">
         <div className="container mx-auto px-4 max-w-7xl">
           <Routes>
             <Route path="/" element={<HomeScreen />} exact />
+            <Route path="/products" element={<ProductsScreen />} />
             <Route path="/login" element={<LoginScreen />} />
             <Route path="/register" element={<RegisterScreen />} />
             <Route path="/activate/:uid/:token" element={<ActivateScreen />} />
