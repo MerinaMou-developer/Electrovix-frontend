@@ -46,7 +46,7 @@ export const listProducts =
       // Construct query string
       const query = `?keyword=${keyword}&filter_by=${filterBy}&page=${page}&category_slug=${category_slug}&brand_slug=${brand_slug}&minPrice=${minPrice}&maxPrice=${maxPrice}`;
       console.log("API Query:", query); // Log the query
-      const { data } = await axios.get(`${API_BASE_URL}/api/products${query}`);
+      const { data } = await axios.get(`${API_BASE_URL}/api/products/${query}`);
       console.log("API Response:", data); // Log the API response
 
       dispatch({
