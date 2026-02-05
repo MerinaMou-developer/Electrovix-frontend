@@ -11,7 +11,7 @@ import {
 } from "../actions/productActions";
 import { PRODUCT_CREATE_REVIEW_RESET } from "../constants/productConstants";
 import Paginate from "../components/Paginate";
-const BASE_URL = process.env.REACT_APP_BACKEND_URL;
+import { API_BASE_URL } from "../config";
 function ProductScreen() {
   const [qty, setQty] = useState(1);
   const [rating, setRating] = useState(0);
@@ -69,7 +69,7 @@ function ProductScreen() {
         <div className="grid grid-cols-1 md:grid-cols-12 gap-8">
           <div className="md:col-span-6">
             <div className="rounded-2xl overflow-hidden bg-gray-50 border border-gray-100 shadow-card">
-              <img src={`${BASE_URL}${product.image}`} alt={product.name} className="w-full h-auto object-cover" />
+              <img src={`${API_BASE_URL}${product.image}`} alt={product.name} className="w-full h-auto object-cover" />
             </div>
           </div>
           <div className="md:col-span-6 space-y-4">

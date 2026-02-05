@@ -6,7 +6,7 @@ import { addToCart } from "../actions/cartActions";
 import { showSuccessToast } from "./Toast";
 import { FaShoppingCart } from "react-icons/fa";
 
-const BASE_URL = process.env.REACT_APP_BACKEND_URL;
+import { API_BASE_URL } from "../config";
 
 function Product({ product }) {
   const dispatch = useDispatch();
@@ -33,7 +33,7 @@ function Product({ product }) {
             </span>
           )}
           <img
-            src={`${BASE_URL}${product.image}`}
+            src={`${API_BASE_URL}${product.image}`}
             alt={product.name}
             className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
           />

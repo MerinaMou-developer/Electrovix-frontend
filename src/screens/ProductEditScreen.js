@@ -7,7 +7,7 @@ import Message from "../components/Message";
 import FormContainer from "../components/FormContainer";
 import { listProductDetails, updateProduct } from "../actions/productActions";
 import { PRODUCT_UPDATE_RESET } from "../constants/productConstants";
-const BASE_URL = process.env.REACT_APP_BACKEND_URL;
+import { API_BASE_URL } from "../config";
 
 function ProductEditScreen() {
   const { id: productId } = useParams();
@@ -41,10 +41,10 @@ function ProductEditScreen() {
     const fetchCategoriesAndBrands = async () => {
       try {
         const { data: categoriesData } = await axios.get(
-          `${BASE_URL}/api/products/categories/`
+          `${API_BASE_URL}/api/products/categories/`
         );
         const { data: brandsData } = await axios.get(
-          `${BASE_URL}/api/products/brand/`
+          `${API_BASE_URL}/api/products/brand/`
         );
 
         setCategories(categoriesData);
@@ -112,7 +112,7 @@ function ProductEditScreen() {
       };
 
       const { data } = await axios.post(
-        `${BASE_URL}/api/products/upload/`,
+        `${API_BASE_URL}/api/products/upload/`,
         formData,
         config
       );

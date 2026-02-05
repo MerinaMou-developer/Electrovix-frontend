@@ -6,7 +6,7 @@ import Message from "./Message";
 import { listTopProducts } from "../actions/productActions";
 import { FaChevronLeft, FaChevronRight, FaShoppingBag, FaTruck, FaShieldAlt } from "react-icons/fa";
 
-const BASE_URL = process.env.REACT_APP_BACKEND_URL;
+import { API_BASE_URL } from "../config";
 
 function ProductCarousel() {
   const dispatch = useDispatch();
@@ -45,7 +45,7 @@ function ProductCarousel() {
         <div key={`img-${index}`} className="relative order-2 md:order-1 bg-white flex items-center justify-center p-8 md:p-12 border-r border-slate-100">
           <Link to={`/product/${current._id}`} className="block w-full h-full flex items-center justify-center group">
             <img
-              src={`${BASE_URL}${current.image}`}
+              src={`${API_BASE_URL}${current.image}`}
               alt={current.name}
               className="max-h-[200px] md:max-h-[260px] w-auto object-contain drop-shadow-[0_20px_40px_rgba(0,0,0,0.12)] group-hover:scale-105 transition-transform duration-500"
             />

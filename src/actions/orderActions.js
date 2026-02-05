@@ -34,7 +34,7 @@ import {
   ORDER_DELIVER_RESET,
 } from "../constants/OrderConstants";
 import { CART_CLEAR_ITEMS } from "../constants/cartConstant";
-const BASE_URL = process.env.REACT_APP_BACKEND_URL;
+import { API_BASE_URL } from "../config";
 // Action to create a new order
 export const createOrder = (order) => async (dispatch, getState) => {
   try {
@@ -52,7 +52,7 @@ export const createOrder = (order) => async (dispatch, getState) => {
     };
 
     const { data } = await axios.post(
-      `${BASE_URL}/api/orders/add/`,
+      `${API_BASE_URL}/api/orders/add/`,
       order,
       config
     );
@@ -97,7 +97,7 @@ export const initiatePayment =
       };
 
       const { data } = await axios.post(
-        `${BASE_URL}/api/orders/initiate-payment/`,
+        `${API_BASE_URL}/api/orders/initiate-payment/`,
         { order_id: orderId, totalPrice },
         config
       );
@@ -221,7 +221,7 @@ export const getOrderDetails = (id) => async (dispatch, getState) => {
       },
     };
 
-    const { data } = await axios.get(`${BASE_URL}/api/orders/${id}/`, config);
+    const { data } = await axios.get(`${API_BASE_URL}/api/orders/${id}/`, config);
 
     dispatch({
       type: ORDER_DETAILS_SUCCESS,
@@ -256,7 +256,7 @@ export const payOrder = (id, paymentResult) => async (dispatch, getState) => {
     };
 
     const { data } = await axios.put(
-      `${BASE_URL}/api/orders/${id}/pay/`,
+      `${API_BASE_URL}/api/orders/${id}/pay/`,
       paymentResult,
       config
     );
@@ -294,7 +294,7 @@ export const deliverOrder = (order) => async (dispatch, getState) => {
     };
 
     const { data } = await axios.put(
-      `${BASE_URL}/api/orders/${order._id}/deliver/`,
+      `${API_BASE_URL}/api/orders/${order._id}/deliver/`,
       {},
       config
     );
@@ -334,7 +334,7 @@ export const listMyOrders =
       };
 
       const { data } = await axios.get(
-        `${BASE_URL}/api/orders/myorders/?page=${page}`,
+        `${API_BASE_URL}/api/orders/myorders/?page=${page}`,
         config
       );
 
@@ -371,7 +371,7 @@ export const listOrders =
       };
 
       const { data } = await axios.get(
-        `${BASE_URL}/api/orders/?page=${page}`,
+        `${API_BASE_URL}/api/orders/?page=${page}`,
         config
       );
 

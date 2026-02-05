@@ -18,7 +18,7 @@ import {
 } from "../actions/orderActions";
 import { ORDER_DELIVER_RESET } from "../constants/OrderConstants";
 import { showSuccessToast, showErrorToast } from "../components/Toast";
-const BASE_URL = process.env.REACT_APP_BACKEND_URL;
+import { API_BASE_URL } from "../config";
 function OrderScreen() {
   const { id: orderId } = useParams();
   const [searchParams] = useSearchParams();
@@ -115,7 +115,7 @@ function OrderScreen() {
               <ul className="divide-y divide-gray-200">
                 {order.orderItems?.map((item, index) => (
                   <li key={index} className="py-3 flex flex-wrap items-center gap-4">
-                    <img src={`${BASE_URL}${item.image}`} alt={item.name} className="w-12 h-12 object-cover rounded" />
+                    <img src={`${API_BASE_URL}${item.image}`} alt={item.name} className="w-12 h-12 object-cover rounded" />
                     <Link to={`/product/${item.product}`} className="flex-1 font-medium hover:underline">{item.name}</Link>
                     <span>{item.qty} X ৳{item.price} = ৳{(item.qty * item.price).toFixed(2)}</span>
                   </li>

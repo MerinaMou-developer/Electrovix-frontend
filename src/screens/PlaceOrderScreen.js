@@ -5,7 +5,7 @@ import Message from "../components/Message";
 import CheckoutSteps from "../components/CheckoutSteps";
 import { createOrder } from "../actions/orderActions";
 import { ORDER_CREATE_RESET } from "../constants/OrderConstants";
-const BASE_URL = process.env.REACT_APP_BACKEND_URL;
+import { API_BASE_URL } from "../config";
 function PlaceOrderScreen() {
   const orderCreate = useSelector((state) => state.orderCreate);
   const { order, error, success } = orderCreate;
@@ -75,7 +75,7 @@ function PlaceOrderScreen() {
               <ul className="divide-y divide-gray-200">
                 {cart.cartItems?.map((item, index) => (
                   <li key={index} className="py-3 flex flex-wrap items-center gap-4">
-                    <img src={`${BASE_URL}${item.image}`} alt={item.name} className="w-12 h-12 object-cover rounded" />
+                    <img src={`${API_BASE_URL}${item.image}`} alt={item.name} className="w-12 h-12 object-cover rounded" />
                     <Link to={`/product/${item.product}`} className="flex-1 font-medium hover:underline">{item.name}</Link>
                     <span>{item.qty} X ৳{item.price} = ৳{(item.qty * item.price).toFixed(2)}</span>
                   </li>

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { FaCheckCircle, FaTimesCircle } from "react-icons/fa";
 import axios from "axios";
-const BASE_URL = process.env.REACT_APP_BACKEND_URL;
+import { API_BASE_URL } from "../config";
 function ActivateScreen() {
   const { uid, token } = useParams();
   const navigate = useNavigate();
@@ -16,7 +16,7 @@ function ActivateScreen() {
     const activateAccount = async () => {
       try {
         const { data } = await axios.get(
-          `${BASE_URL}/api/users/activate/${uid}/${token}/`
+          `${API_BASE_URL}/api/users/activate/${uid}/${token}/`
         );
         setStatus({
           loading: false,

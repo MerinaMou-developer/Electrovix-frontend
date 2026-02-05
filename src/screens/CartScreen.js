@@ -6,7 +6,7 @@ import { addToCart, removeFromCart } from "../actions/cartActions";
 import { showSuccessToast } from "../components/Toast";
 import { FaTrashAlt, FaShoppingBag } from "react-icons/fa";
 
-const BASE_URL = process.env.REACT_APP_BACKEND_URL;
+import { API_BASE_URL } from "../config";
 
 function CartScreen() {
   const { id: productId } = useParams();
@@ -66,7 +66,7 @@ function CartScreen() {
               >
                 <Link to={`/product/${item.product}`} className="shrink-0">
                   <img
-                    src={`${BASE_URL}${item.image}`}
+                    src={`${API_BASE_URL}${item.image}`}
                     alt={item.name}
                     className="w-24 h-24 md:w-28 md:h-28 object-cover rounded-xl"
                   />
