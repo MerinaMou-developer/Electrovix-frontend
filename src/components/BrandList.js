@@ -16,7 +16,12 @@ const BrandList = ({ selectedBrand, onBrandClick }) => {
     <div>
       <div className="flex justify-between items-center my-3">
         <h5 className="font-semibold">Our Brands</h5>
-        <button type="button" onClick={() => onBrandClick("")} className="text-red-500 hover:text-red-700" title="Reset">
+        <button
+          type="button"
+          onClick={() => (error ? dispatch(listBrands()) : onBrandClick(""))}
+          className="text-red-500 hover:text-red-700"
+          title={error ? "Retry" : "Reset"}
+        >
           <FaUndo size={20} />
         </button>
       </div>

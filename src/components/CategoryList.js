@@ -18,9 +18,9 @@ const CategoryList = ({ selectedCategory, onCategoryClick }) => {
         <h5 className="font-semibold">Our Categories</h5>
         <button
           type="button"
-          onClick={() => onCategoryClick("")}
+          onClick={() => (error ? dispatch(listCategories()) : onCategoryClick(""))}
           className="text-red-500 hover:text-red-700"
-          title="Reset"
+          title={error ? "Retry" : "Reset"}
         >
           <FaUndo size={20} />
         </button>

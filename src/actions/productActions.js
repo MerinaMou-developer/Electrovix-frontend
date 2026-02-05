@@ -69,7 +69,7 @@ export const listCategories = () => async (dispatch) => {
   try {
     dispatch({ type: CATEGORY_LIST_REQUEST });
 
-    const { data } = await axios.get(`${API_BASE_URL}/api/products/categories`);
+    const { data } = await axios.get(`${API_BASE_URL}/api/products/categories/`);
 
     dispatch({
       type: CATEGORY_LIST_SUCCESS,
@@ -91,7 +91,7 @@ export const listBrands = () => async (dispatch) => {
   try {
     dispatch({ type: BRAND_LIST_REQUEST });
 
-    const { data } = await axios.get(`${API_BASE_URL}/api/products/brand`);
+    const { data } = await axios.get(`${API_BASE_URL}/api/products/brand/`);
 
     dispatch({
       type: BRAND_LIST_SUCCESS,
