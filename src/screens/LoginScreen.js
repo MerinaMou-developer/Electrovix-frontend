@@ -65,6 +65,37 @@ function LoginScreen() {
               Create account
             </Link>
           </p>
+
+          {/* Demo credentials for recruiters */}
+          <div className="mt-8 pt-6 border-t border-gray-100">
+            <p className="text-xs font-medium text-gray-500 uppercase tracking-wider mb-3 text-center">Demo credentials</p>
+            <div className="space-y-3">
+              <button
+                type="button"
+                onClick={() => { setEmail("demo@example.com"); setPassword("demo1234"); }}
+                className="w-full flex items-center justify-between gap-3 p-3 rounded-xl bg-slate-50 hover:bg-amber-50 border border-slate-100 hover:border-amber-200 transition-all group"
+              >
+                <div className="text-left">
+                  <span className="block text-xs font-medium text-slate-500">User</span>
+                  <span className="text-sm font-medium text-slate-800 group-hover:text-amber-800">demo@example.com</span>
+                  <span className="text-xs text-slate-400">••••••••</span>
+                </div>
+                <span className="text-xs font-medium text-amber-600 bg-amber-100 px-2 py-1 rounded-lg">Click to fill</span>
+              </button>
+              <button
+                type="button"
+                onClick={() => { setEmail("admin@gmail.com"); setPassword("123"); }}
+                className="w-full flex items-center justify-between gap-3 p-3 rounded-xl bg-slate-50 hover:bg-indigo-50 border border-slate-100 hover:border-indigo-200 transition-all group"
+              >
+                <div className="text-left">
+                  <span className="block text-xs font-medium text-slate-500">Admin</span>
+                  <span className="text-sm font-medium text-slate-800 group-hover:text-indigo-800">admin@gmail.com</span>
+                  <span className="text-xs text-slate-400">•••</span>
+                </div>
+                <span className="text-xs font-medium text-indigo-600 bg-indigo-100 px-2 py-1 rounded-lg">Click to fill</span>
+              </button>
+            </div>
+          </div>
         </div>
       </div>
     </div>
