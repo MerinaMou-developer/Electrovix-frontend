@@ -15,6 +15,7 @@ import PriceFilter from "../components/PriceFilter";
 import { listProducts } from "../actions/productActions";
 import { useLocation, useNavigate } from "react-router-dom";
 import { FaUndo } from "react-icons/fa";
+import AIChatBox from "../components/AIChatBox";
 
 function HomeScreen() {
   const dispatch = useDispatch();
@@ -126,6 +127,9 @@ function HomeScreen() {
 
       {/* Deals banner */}
       <DealsBanner />
+
+      {/* AI Assistant */}
+      {/* <AIChatBox /> */}
 
       {/* Trending Products */}
       <h1 className="text-2xl md:text-4xl font-extrabold text-primary text-center my-8 tracking-tight">

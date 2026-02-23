@@ -4,4 +4,4 @@
  * Fallback ensures app works even if env var is missing.
  */
 export const API_BASE_URL =
-  process.env.REACT_APP_BACKEND_URL || "https://electrovix-backend.onrender.com";
+  process.env.REACT_APP_BACKEND_URL || "https://127.0.0.1:8000";

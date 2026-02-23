@@ -22,6 +22,7 @@ import ProductEditScreen from "./screens/ProductEditScreen";
 import OrderListScreen from "./screens/OrderListScreen";
 import AboutScreen from "./screens/AboutScreen";
 import ContactScreen from "./screens/ContactScreen";
+import AIChatWidget from "./components/AIChatWidget";
 
 function App() {
   return (
@@ -53,6 +54,7 @@ function App() {
           </Routes>
         </div>
       </main>
+      <AIChatWidget />
       <Footer />
     </Router>
   );
