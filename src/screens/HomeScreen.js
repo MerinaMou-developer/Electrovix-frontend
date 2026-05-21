@@ -132,14 +132,15 @@ function HomeScreen() {
       {/* <AIChatBox /> */}
 
       {/* Trending Products */}
-      <h1 className="text-2xl md:text-4xl font-extrabold text-primary text-center my-8 tracking-tight">
-        Trending Products
-      </h1>
+      <h1 className="section-title my-10">Trending Products</h1>
 
       <div className="grid grid-cols-1 md:grid-cols-12 gap-8">
         <aside className="md:col-span-3 space-y-6">
-          <div className="bg-white/90 backdrop-blur-sm rounded-2xl border border-slate-200/80 shadow-card p-5 sticky top-24">
-            <h2 className="text-lg font-bold text-primary mb-4">Filters</h2>
+          <div className="glass-card p-5 sticky top-28">
+            <h2 className="text-lg font-bold text-primary mb-4 flex items-center gap-2">
+              <span className="w-1 h-5 bg-accent rounded-full" />
+              Filters
+            </h2>
           <CategoryList
             selectedCategory={categorySlug} // Highlight active category
             onCategoryClick={handleCategoryClick} // Callback to handle category click
@@ -151,7 +152,7 @@ function HomeScreen() {
           <PriceFilter onPriceFilterChange={handlePriceFilterChange} />
           <button
             type="button"
-            className="w-full mt-4 flex items-center justify-center gap-2 bg-slate-100 hover:bg-primary hover:text-white text-primary font-semibold py-3 px-4 rounded-xl transition-all duration-200"
+            className="w-full mt-4 flex items-center justify-center gap-2 bg-accent-pale hover:bg-primary hover:text-white text-primary font-semibold py-3 px-4 rounded-xl transition-all duration-200 border border-accent-light/50"
             onClick={resetFilters}
           >
             <FaUndo /> Reset All
@@ -160,21 +161,12 @@ function HomeScreen() {
         </aside>
         <div className="md:col-span-9">
           {/* Filter Tabs */}
-          <div className="flex flex-wrap justify-center gap-2 mb-6">
-            {[
-              ["best_seller", "Best Seller"],
-              ["featured", "Featured Product"],
-              ["latest", "New Product"],
-              ["discount", "Discount"],
-            ].map(([value, label]) => (
+          <div className="flex flex-wrap justify-center gap-2 mb-8">
+            {filterTabs.map(([value, label]) => (
               <button
                 key={value}
                 type="button"
-                className={`px-4 py-2 rounded border font-semibold uppercase transition-colors ${
-                  filterBy === value
-                    ? "bg-primary text-white border-primary"
-                    : "bg-gray-100 text-gray-800 border-gray-300 hover:bg-gray-200"
-                }`}
+                className={`filter-pill ${filterBy === value ? "filter-pill-active" : "filter-pill-inactive"}`}
                 onClick={() => handleFilterChange(value)}
               >
                 {label}

@@ -9,6 +9,7 @@ It connects to the backend at `https://electrovix-backend.onrender.com` (configu
 ### 🌍 Live Demo
 
 - **Deployed app**: [`https://electrovix.vercel.app/`](https://electrovix.vercel.app/)
+- **Backend API**: [`https://electrovix-backend.onrender.com`](https://electrovix-backend.onrender.com)
 
 ---
 
@@ -112,6 +113,10 @@ The app will hot‑reload as you edit code.
     ```
 
     in your environment and restart the dev server.
+
+- **Backend redirects (payments/account activation)**
+  - Backend success/fail/cancel payment redirects and account activation links point to:
+    `https://electrovix.vercel.app`
 
 ---
 

@@ -46,7 +46,7 @@ function PaymentScreen() {
             <span className="font-medium text-primary">SSLCOMMERZ</span>
           </label>
         </div>
-        <button type="submit" className="w-full mt-6 bg-primary hover:bg-accent text-white font-semibold py-3 px-4 rounded-xl transition-all duration-200 hover:shadow-glow">Continue</button>
+        <button type="submit" className="w-full mt-6 bg-primary hover:bg-primary-light text-white font-semibold py-3 px-4 rounded-xl transition-all duration-200 hover:shadow-glow">Continue</button>
       </form>
     </FormContainer>
   );

@@ -6,7 +6,7 @@ import { addToCart, removeFromCart } from "../actions/cartActions";
 import { showSuccessToast } from "../components/Toast";
 import { FaTrashAlt, FaShoppingBag } from "react-icons/fa";
 
-import { API_BASE_URL } from "../config";
+import { getProductImageUrl } from "../config";
 
 function CartScreen() {
   const { id: productId } = useParams();
@@ -66,7 +66,7 @@ function CartScreen() {
               >
                 <Link to={`/product/${item.product}`} className="shrink-0">
                   <img
-                    src={`${API_BASE_URL}${item.image}`}
+                    src={getProductImageUrl(item.image)}
                     alt={item.name}
                     className="w-24 h-24 md:w-28 md:h-28 object-cover rounded-xl"
                   />
@@ -118,7 +118,7 @@ function CartScreen() {
                 type="button"
                 disabled={cartItems.length === 0}
                 onClick={checkoutHandler}
-                className="w-full flex items-center justify-center gap-2 bg-primary hover:bg-accent text-white font-semibold py-3 px-4 rounded-xl disabled:bg-gray-300 disabled:cursor-not-allowed transition-all duration-200 hover:shadow-glow"
+                className="w-full flex items-center justify-center gap-2 bg-primary hover:bg-primary-light text-white font-semibold py-3 px-4 rounded-xl disabled:bg-gray-300 disabled:cursor-not-allowed transition-all duration-200 hover:shadow-glow"
               >
                 <FaShoppingBag className="w-4 h-4" /> Proceed to Checkout
               </button>

@@ -11,7 +11,7 @@ import {
 } from "../actions/productActions";
 import { PRODUCT_CREATE_REVIEW_RESET } from "../constants/productConstants";
 import Paginate from "../components/Paginate";
-import { API_BASE_URL } from "../config";
+import { getProductImageUrl } from "../config";
 function ProductScreen() {
   const [qty, setQty] = useState(1);
   const [rating, setRating] = useState(0);
@@ -69,12 +69,12 @@ function ProductScreen() {
         <div className="grid grid-cols-1 md:grid-cols-12 gap-8">
           <div className="md:col-span-6">
             <div className="rounded-2xl overflow-hidden bg-gray-50 border border-gray-100 shadow-card">
-              <img src={`${API_BASE_URL}${product.image}`} alt={product.name} className="w-full h-auto object-cover" />
+              <img src={getProductImageUrl(product.image)} alt={product.name} className="w-full h-auto object-cover" />
             </div>
           </div>
           <div className="md:col-span-6 space-y-4">
             <h1 className="text-2xl md:text-3xl font-bold text-primary">{product.name}</h1>
-            <Rating value={product.rating} text={`${product.numReviews} reviews`} color="#fbbf24" />
+            <Rating value={product.rating} text={`${product.numReviews} reviews`} color="#1976D2" />
             <p className="text-gray-600 leading-relaxed">{product.description}</p>
             <div className="flex items-baseline gap-3 flex-wrap">
               {discountPrice ? (
@@ -105,7 +105,7 @@ function ProductScreen() {
                   </div>
                 )}
               </div>
-              <button onClick={addToCartHandler} disabled={product.countInStock === 0} className="w-full bg-primary hover:bg-accent text-white font-semibold py-3 px-4 rounded-xl disabled:bg-gray-300 disabled:cursor-not-allowed transition-all duration-200" type="button">
+              <button onClick={addToCartHandler} disabled={product.countInStock === 0} className="w-full bg-primary hover:bg-primary-light text-white font-semibold py-3 px-4 rounded-xl disabled:bg-gray-300 disabled:cursor-not-allowed transition-all duration-200" type="button">
                 Add to Cart
               </button>
             </div>
@@ -117,7 +117,7 @@ function ProductScreen() {
           <ul className="space-y-4 divide-y divide-gray-100">
             {product.reviews?.map((review) => (
               <li key={review._id} className="pt-4 first:pt-0">
-                <div className="flex items-center gap-2 mb-1"><strong className="text-primary">{review.name}</strong><Rating value={review.rating} color="#fbbf24" /></div>
+                <div className="flex items-center gap-2 mb-1"><strong className="text-primary">{review.name}</strong><Rating value={review.rating} color="#1976D2" /></div>
                 <p className="text-sm text-gray-500 mb-1">{review.createdAt?.substring(0, 10)}</p>
                 <p className="text-gray-700">{review.comment}</p>
               </li>
@@ -145,7 +145,7 @@ function ProductScreen() {
                   <label className="block text-sm font-medium text-gray-700 mb-1">Comment</label>
                   <textarea rows={4} value={comment} onChange={(e) => setComment(e.target.value)} className="w-full border border-gray-200 rounded-xl px-4 py-2.5 focus:ring-2 focus:ring-accent/30 focus:border-accent resize-none" placeholder="Share your experience..." />
                 </div>
-                <button type="submit" disabled={loadingProductReview} className="bg-primary hover:bg-accent text-white font-semibold py-2.5 px-5 rounded-xl transition-colors disabled:opacity-50">Submit Review</button>
+                <button type="submit" disabled={loadingProductReview} className="bg-primary hover:bg-primary-light text-white font-semibold py-2.5 px-5 rounded-xl transition-colors disabled:opacity-50">Submit Review</button>
               </form>
             ) : (
               <Message variant="info">Please <Link to="/login" className="text-accent font-semibold hover:underline">sign in</Link> to write a review.</Message>

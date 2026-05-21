@@ -85,14 +85,15 @@ function ProductsScreen() {
 
   return (
     <div className="animate-fade-in">
-      <h1 className="text-2xl md:text-4xl font-extrabold text-primary text-center my-8 tracking-tight">
-        All Products
-      </h1>
+      <h1 className="section-title my-10">All Products</h1>
 
       <div className="grid grid-cols-1 md:grid-cols-12 gap-8">
         <aside className="md:col-span-3 space-y-6">
-          <div className="bg-white/90 backdrop-blur-sm rounded-2xl border border-slate-200/80 shadow-card p-5 sticky top-24">
-            <h2 className="text-lg font-bold text-primary mb-4">Filters</h2>
+          <div className="glass-card p-5 sticky top-28">
+            <h2 className="text-lg font-bold text-primary mb-4 flex items-center gap-2">
+              <span className="w-1 h-5 bg-accent rounded-full" />
+              Filters
+            </h2>
             <CategoryList
               selectedCategory={categorySlug}
               onCategoryClick={handleCategoryClick}
@@ -104,7 +105,7 @@ function ProductsScreen() {
             <PriceFilter onPriceFilterChange={handlePriceFilterChange} />
             <button
               type="button"
-              className="w-full mt-4 flex items-center justify-center gap-2 bg-slate-100 hover:bg-primary hover:text-white text-primary font-semibold py-3 px-4 rounded-xl transition-all duration-200"
+              className="w-full mt-4 flex items-center justify-center gap-2 bg-accent-pale hover:bg-primary hover:text-white text-primary font-semibold py-3 px-4 rounded-xl transition-all duration-200 border border-accent-light/50"
               onClick={resetFilters}
             >
               <FaUndo /> Reset All
@@ -112,7 +113,7 @@ function ProductsScreen() {
           </div>
         </aside>
         <div className="md:col-span-9">
-          <div className="flex flex-wrap justify-center gap-2 mb-6">
+          <div className="flex flex-wrap justify-center gap-2 mb-8">
             {[
               ["best_seller", "Best Seller"],
               ["featured", "Featured"],
@@ -122,11 +123,7 @@ function ProductsScreen() {
               <button
                 key={value}
                 type="button"
-                className={`px-5 py-2.5 rounded-xl font-semibold text-sm uppercase tracking-wide transition-all duration-200 ${
-                  filterBy === value
-                    ? "bg-primary text-white shadow-lg shadow-primary/20 scale-105"
-                    : "bg-white/80 text-slate-600 border border-slate-200 hover:border-primary/30 hover:bg-white hover:shadow-md"
-                }`}
+                className={`filter-pill ${filterBy === value ? "filter-pill-active" : "filter-pill-inactive"}`}
                 onClick={() => handleFilterChange(value)}
               >
                 {label}

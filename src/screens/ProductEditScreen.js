@@ -8,6 +8,7 @@ import FormContainer from "../components/FormContainer";
 import { listProductDetails, updateProduct } from "../actions/productActions";
 import { PRODUCT_UPDATE_RESET } from "../constants/productConstants";
 import { API_BASE_URL } from "../config";
+import { showSuccessToast } from "../components/Toast";
 
 function ProductEditScreen() {
   const { id: productId } = useParams();
@@ -29,6 +30,9 @@ function ProductEditScreen() {
 
   const productDetails = useSelector((state) => state.productDetails);
   const { loading, error, product } = productDetails;
+
+  const userLogin = useSelector((state) => state.userLogin);
+  const { userInfo } = userLogin;
 
   const productUpdate = useSelector((state) => state.productUpdate);
   const {
@@ -105,9 +109,14 @@ function ProductEditScreen() {
     setUploading(true);
 
     try {
+      if (!userInfo?.token) {
+        throw new Error("Please sign in as admin to upload images.");
+      }
+
       const config = {
         headers: {
           "Content-Type": "multipart/form-data",
+          Authorization: `Bearer ${userInfo.token}`,
         },
       };
 
@@ -117,6 +126,7 @@ function ProductEditScreen() {
         config
       );
       setImage(data.image);
+      showSuccessToast("Image uploaded successfully");
       setUploading(false);
     } catch (error) {
       console.error("Upload error:", error);

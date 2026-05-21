@@ -33,7 +33,7 @@ function PriceFilter({ onPriceFilterChange }) {
             placeholder="e.g. 1299999"
           />
         </div>
-        <button type="submit" className="w-full bg-primary hover:bg-accent text-white font-medium py-2.5 px-4 rounded-xl transition-colors text-sm">
+        <button type="submit" className="w-full bg-primary hover:bg-primary-light text-white font-medium py-2.5 px-4 rounded-xl transition-colors text-sm">
           Apply
         </button>
       </form>

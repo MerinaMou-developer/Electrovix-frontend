@@ -12,7 +12,7 @@ function CheckoutSteps({ step1, step2, step3, step4 }) {
     );
     if (enabled) {
       return (
-        <Link to={to} className="flex items-center gap-2 px-4 py-2.5 rounded-xl text-primary hover:bg-surface hover:text-accent transition-colors no-underline">
+        <Link to={to} className="flex items-center gap-2 px-4 py-2.5 rounded-xl text-primary hover:bg-accent-pale hover:text-primary-light font-medium transition-colors no-underline border border-transparent hover:border-accent-light/50">
           {content}
         </Link>
       );

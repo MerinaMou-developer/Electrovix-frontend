@@ -31,7 +31,7 @@ function Paginate({
             className={`min-w-[2.5rem] h-10 flex items-center justify-center rounded-xl font-medium transition-all duration-200 ${
               isActive
                 ? "bg-primary text-white shadow-glow"
-                : "bg-surface text-gray-700 hover:bg-gray-200 border border-gray-200"
+                : "bg-white text-primary hover:bg-accent-pale border border-accent-light/50"
             }`}
           >
             {p}

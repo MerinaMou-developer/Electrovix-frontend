@@ -39,7 +39,7 @@ function AboutScreen() {
           </p>
           <Link
             to="/"
-            className="inline-flex items-center gap-2 mt-6 bg-accent hover:bg-accent-light text-primary font-semibold px-6 py-3 rounded-xl transition-all duration-200 shadow-glow no-underline"
+            className="inline-flex items-center gap-2 mt-6 bg-white text-primary hover:bg-accent-pale font-bold px-6 py-3 rounded-xl transition-all duration-200 shadow-lg hover:shadow-glow no-underline"
           >
             Shop Now
           </Link>
@@ -59,8 +59,8 @@ function AboutScreen() {
               Today we offer electronics, fashion, home goods, and more — all with clear policies, secure payment, and support when you need it.
             </p>
           </div>
-          <div className="bg-gradient-to-br from-accent/10 to-teal/10 rounded-2xl border border-amber-100 p-8 flex items-center justify-center">
-            <FaHeart className="w-24 h-24 text-accent/40" />
+          <div className="bg-gradient-to-br from-accent-pale to-accent-light/30 rounded-2xl border border-accent-light/50 p-8 flex items-center justify-center">
+            <FaHeart className="w-24 h-24 text-primary/30" />
           </div>
         </div>
       </section>
@@ -74,7 +74,7 @@ function AboutScreen() {
               key={item.title}
               className="bg-white rounded-2xl border border-slate-100 p-6 shadow-card hover:shadow-card-hover transition-shadow duration-300"
             >
-              <div className="w-12 h-12 rounded-xl bg-accent/10 flex items-center justify-center text-accent mb-4">
+              <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-primary to-primary-light flex items-center justify-center text-white mb-4 shadow-soft">
                 <item.icon className="w-6 h-6" />
               </div>
               <h3 className="font-bold text-primary mb-2">{item.title}</h3>

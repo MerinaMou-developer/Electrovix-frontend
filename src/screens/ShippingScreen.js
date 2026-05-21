@@ -60,7 +60,7 @@ function ShippingScreen() {
             <input required type="text" placeholder="Phone number" value={phone} onChange={(e) => setPhone(e.target.value)} className="w-full border border-gray-200 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-accent/30 focus:border-accent" />
           </div>
         </div>
-        <button type="submit" className="w-full mt-6 bg-primary hover:bg-accent text-white font-semibold py-3 px-4 rounded-xl transition-all duration-200 hover:shadow-glow">Continue</button>
+        <button type="submit" className="w-full mt-6 bg-primary hover:bg-primary-light text-white font-semibold py-3 px-4 rounded-xl transition-all duration-200 hover:shadow-glow">Continue</button>
       </form>
     </FormContainer>
   );

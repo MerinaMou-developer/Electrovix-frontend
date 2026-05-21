@@ -29,8 +29,8 @@ function App() {
     <Router>
       <Header />
       <Toast />
-      <main className="py-8 min-h-[80vh] relative">
-        <div className="container mx-auto px-4 max-w-7xl">
+      <main className="py-8 min-h-[80vh] relative bg-mesh-gradient">
+        <div className="container mx-auto px-4 max-w-7xl relative z-10">
           <Routes>
             <Route path="/" element={<HomeScreen />} exact />
             <Route path="/products" element={<ProductsScreen />} />

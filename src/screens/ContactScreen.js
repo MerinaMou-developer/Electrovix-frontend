@@ -34,7 +34,7 @@ function ContactScreen() {
             key={item.label}
             className="bg-white rounded-2xl border border-slate-100 p-6 shadow-card text-center hover:shadow-card-hover transition-shadow"
           >
-            <div className="w-12 h-12 rounded-xl bg-accent/10 flex items-center justify-center text-accent mx-auto mb-3">
+            <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-primary to-primary-light flex items-center justify-center text-white mx-auto mb-3 shadow-soft">
               <item.icon className="w-5 h-5" />
             </div>
             <h3 className="font-semibold text-primary mb-1">{item.label}</h3>
@@ -123,7 +123,7 @@ function ContactScreen() {
                 </div>
                 <button
                   type="submit"
-                  className="w-full flex items-center justify-center gap-2 bg-primary hover:bg-accent text-white font-semibold py-3 px-4 rounded-xl transition-all duration-200 hover:shadow-glow"
+                  className="w-full flex items-center justify-center gap-2 bg-primary hover:bg-primary-light text-white font-semibold py-3 px-4 rounded-xl transition-all duration-200 hover:shadow-glow"
                 >
                   <FaPaperPlane className="w-4 h-4" /> Send Message
                 </button>
