@@ -16,22 +16,24 @@ function SearchBox() {
   };
 
   return (
-    <form onSubmit={submitHandler} className="flex items-center gap-2 w-full">
-      <input
-        type="text"
-        name="q"
-        placeholder="Search products..."
-        value={keyword}
-        onChange={(e) => setKeyword(e.target.value)}
-        className="flex-1 min-w-0 rounded-xl border border-white/20 bg-white/10 placeholder:text-slate-400 text-white px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-accent/50 focus:border-accent transition-shadow"
-      />
-      <button
-        type="submit"
-        className="shrink-0 p-2.5 rounded-xl bg-white/10 hover:bg-accent border border-white/20 text-white transition-colors duration-200"
-        aria-label="Search"
-      >
-        <FaSearch className="w-4 h-4" />
-      </button>
+    <form onSubmit={submitHandler} className="flex items-center w-full">
+      <div className="flex flex-1 items-center bg-accent-pale border border-accent-light rounded-lg overflow-hidden focus-within:ring-2 focus-within:ring-primary/20 focus-within:border-primary transition-shadow">
+        <input
+          type="text"
+          name="q"
+          placeholder="Search laptops, phones, accessories..."
+          value={keyword}
+          onChange={(e) => setKeyword(e.target.value)}
+          className="flex-1 min-w-0 bg-transparent text-primary-dark placeholder:text-muted px-4 py-2.5 text-sm focus:outline-none"
+        />
+        <button
+          type="submit"
+          className="shrink-0 px-4 py-2.5 bg-primary text-white hover:bg-primary-dark transition-colors"
+          aria-label="Search"
+        >
+          <FaSearch className="w-4 h-4" />
+        </button>
+      </div>
     </form>
   );
 }

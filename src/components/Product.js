@@ -24,9 +24,9 @@ function Product({ product }) {
   const percentageOff = product.discountPercentage ? `${product.discountPercentage}% OFF` : null;
 
   return (
-    <div className="group relative bg-white rounded-2xl border border-accent-light/40 overflow-hidden shadow-card hover:shadow-card-hover transition-all duration-300 flex flex-col h-full min-h-[420px] animate-slide-up hover:-translate-y-1">
+    <div className="group product-card overflow-hidden flex flex-col h-full min-h-[400px] animate-slide-up hover:-translate-y-0.5">
       <Link to={`/product/${product._id}`} className="block flex-1 flex flex-col no-underline">
-        <div className="relative aspect-square overflow-hidden bg-gradient-to-br from-accent-pale to-surface-muted">
+        <div className="relative aspect-square overflow-hidden bg-accent-pale">
           {product.discountPercentage > 0 && (
             <span className="absolute top-3 left-3 z-10 bg-primary text-white text-xs font-bold px-2.5 py-1 rounded-lg shadow-soft">
               {percentageOff}
@@ -36,6 +36,10 @@ function Product({ product }) {
             src={getProductImageUrl(product.image)}
             alt={product.name}
             className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+            onError={(e) => {
+              e.target.onerror = null;
+              e.target.src = "https://via.placeholder.com/400x400?text=Product";
+            }}
           />
         </div>
         <div className="p-4 flex flex-col flex-1">
@@ -43,7 +47,7 @@ function Product({ product }) {
             {product.name}
           </h3>
           <div className="mb-2">
-            <Rating value={product.rating} text={`${product.numReviews} reviews`} color="#1976D2" />
+            <Rating value={product.rating} text={`${product.numReviews} reviews`} color="#455A64" />
           </div>
           <div className="mt-auto pt-2">
             {discountPrice ? (

@@ -1,6 +1,6 @@
 import React from "react";
 
-function Rating({ value, text, color = "#1976D2" }) {
+function Rating({ value, text, color = "#455A64" }) {
   return (
     <div className="rating flex items-center gap-1 flex-wrap">
       {[1, 2, 3, 4, 5].map((star) => (

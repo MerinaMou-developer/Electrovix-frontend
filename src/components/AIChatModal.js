@@ -71,7 +71,7 @@ export default function AIChatModal({ open, onClose }) {
       <div className="absolute right-4 bottom-24 md:right-8 md:bottom-28 w-[92vw] max-w-md">
         <div className="bg-white rounded-2xl shadow-card-hover border border-accent-light/50 overflow-hidden">
           {/* Header */}
-          <div className="px-4 py-3 bg-hero-gradient text-white flex items-center justify-between">
+          <div className="px-4 py-3 bg-primary-dark text-white flex items-center justify-between">
             <div className="flex items-center gap-2">
               <span className="text-lg">🤖</span>
               <div>

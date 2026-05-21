@@ -5,7 +5,6 @@ import Loader from "./Loader";
 import Message from "./Message";
 import { listTopProducts } from "../actions/productActions";
 import { FaChevronLeft, FaChevronRight, FaShoppingBag, FaStar } from "react-icons/fa";
-
 import { getProductImageUrl } from "../config";
 
 function ProductCarousel() {
@@ -20,7 +19,7 @@ function ProductCarousel() {
 
   useEffect(() => {
     if (products.length <= 1) return;
-    const id = setInterval(() => setIndex((i) => (i + 1) % products.length), 4500);
+    const id = setInterval(() => setIndex((i) => (i + 1) % products.length), 5500);
     return () => clearInterval(id);
   }, [products.length]);
 
@@ -32,87 +31,129 @@ function ProductCarousel() {
     });
   };
 
-  if (loading) return <Loader />;
+  if (loading) {
+    return (
+      <section className="w-full rounded-2xl bg-white border border-accent-light/60 shadow-card min-h-[320px] flex items-center justify-center">
+        <Loader />
+      </section>
+    );
+  }
   if (error) return <Message variant="danger">{error}</Message>;
   if (!products?.length) return null;
 
   const current = products[index];
 
   return (
-    <section className="relative w-full rounded-3xl overflow-hidden shadow-card-hover border border-accent-light/30">
-      <div className="grid grid-cols-1 md:grid-cols-5 min-h-[240px] md:min-h-[300px] bg-hero-gradient">
-        <div className="absolute inset-0 opacity-30 pointer-events-none bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHZpZXdCb3g9IjAgMCA2MCA2MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZyBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPjxnIGZpbGw9IiNmZmYiIGZpbGwtb3BhY2l0eT0iMC4wNSI+PGNpcmNsZSBjeD0iMzAiIGN5PSIzMCIgcj0iMiIvPjwvZz48L2c+PC9zdmc+')]" />
-
-        <div
-          key={`img-${index}`}
-          className="relative md:col-span-3 flex items-center justify-center p-8 md:p-10 order-2 md:order-1 z-10"
-        >
-          <Link to={`/product/${current._id}`} className="block w-full h-full flex items-center justify-center group">
-            <div className="relative rounded-2xl bg-white/10 backdrop-blur-sm p-6 border border-white/20 animate-float">
-              <img
-                src={getProductImageUrl(current.image)}
-                alt={current.name}
-                className="max-h-[140px] md:max-h-[200px] w-auto object-contain drop-shadow-2xl group-hover:scale-105 transition-transform duration-500"
-              />
-            </div>
+    <section className="relative w-full rounded-2xl overflow-hidden bg-white border border-accent-light/60 shadow-card">
+      {/* Slide content */}
+      <div className="grid grid-cols-1 md:grid-cols-2 min-h-[360px] md:min-h-[400px]">
+        {/* Product image — larger, no nested box */}
+        <div className="relative flex items-center justify-center min-h-[220px] md:min-h-0 bg-gradient-to-br from-accent-pale via-white to-white order-2 md:order-1 overflow-hidden">
+          <div
+            className="absolute inset-0 opacity-40 pointer-events-none"
+            style={{
+              background:
+                "radial-gradient(circle at 30% 50%, rgba(176, 190, 197, 0.35) 0%, transparent 55%)",
+            }}
+          />
+          <Link
+            to={`/product/${current._id}`}
+            className="relative z-10 flex items-center justify-center w-full h-full p-6 md:p-10 lg:p-12 group"
+          >
+            <img
+              key={current._id}
+              src={getProductImageUrl(current.image)}
+              alt={current.name}
+              className="w-full max-w-[280px] md:max-w-[340px] lg:max-w-[400px] max-h-[200px] md:max-h-[280px] lg:max-h-[320px] object-contain drop-shadow-lg group-hover:scale-[1.03] transition-transform duration-500 animate-fade-in-fast"
+              onError={(e) => {
+                e.target.onerror = null;
+                e.target.src = "https://via.placeholder.com/500x500?text=Product";
+              }}
+            />
           </Link>
         </div>
 
-        <div className="relative md:col-span-2 flex flex-col justify-center px-6 md:px-10 py-8 md:py-10 order-1 md:order-2 z-10 text-white">
+        {/* Copy + CTA */}
+        <div className="flex flex-col justify-center px-6 sm:px-10 md:px-10 lg:px-14 py-8 md:py-10 order-1 md:order-2 border-t md:border-t-0 md:border-l border-accent-light/40">
           <div key={index} className="animate-fade-in-fast">
-            <span className="inline-flex items-center gap-1.5 bg-white/20 backdrop-blur-sm border border-white/25 text-white text-[10px] font-bold uppercase tracking-wider px-3 py-1 rounded-full mb-3">
-              <FaStar className="w-3 h-3 text-accent-light" /> Top Rated
-            </span>
-            <h2 className="text-xl md:text-2xl font-extrabold leading-tight mb-2 line-clamp-2">
-              {current.name}
-            </h2>
-            <p className="text-accent-pale text-sm mb-1">Premium tech · Fast delivery</p>
-            <p className="text-2xl md:text-3xl font-bold text-accent-light mb-5">৳{current.price}</p>
-            <Link
-              to={`/product/${current._id}`}
-              className="inline-flex items-center gap-2 bg-white text-primary hover:bg-accent-pale font-bold py-3 px-6 rounded-xl text-sm transition-all duration-200 w-fit no-underline shadow-lg hover:shadow-glow"
-            >
-              <FaShoppingBag className="w-4 h-4" /> Shop Now
-            </Link>
-          </div>
+            <div className="flex flex-wrap items-center gap-2 mb-4">
+              <span className="inline-flex items-center gap-1.5 bg-amber-50 text-amber-800 text-[10px] font-bold uppercase tracking-wider px-2.5 py-1 rounded-md border border-amber-200/80">
+                <FaStar className="w-3 h-3" /> Top rated
+              </span>
+              <span className="text-[10px] font-semibold uppercase tracking-wider text-muted">
+                Featured deal
+              </span>
+            </div>
 
-          {products.length > 1 && (
-            <>
-              <button
-                type="button"
-                onClick={() => goTo(-1)}
-                className="absolute left-2 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-white/20 hover:bg-white/30 backdrop-blur border border-white/30 flex items-center justify-center text-white transition-all z-20"
-                aria-label="Previous"
-              >
-                <FaChevronLeft className="w-4 h-4" />
-              </button>
-              <button
-                type="button"
-                onClick={() => goTo(1)}
-                className="absolute right-2 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-white/20 hover:bg-white/30 backdrop-blur border border-white/30 flex items-center justify-center text-white transition-all z-20"
-                aria-label="Next"
-              >
-                <FaChevronRight className="w-4 h-4" />
-              </button>
-            </>
-          )}
+            <h1 className="text-2xl sm:text-3xl lg:text-[2rem] font-extrabold text-primary-dark leading-[1.15] mb-3 line-clamp-2">
+              {current.name}
+            </h1>
+
+            <p className="text-muted text-sm leading-relaxed mb-5 max-w-md hidden sm:block">
+              Fast delivery, secure checkout, and genuine electronics — shop with confidence.
+            </p>
+
+            <div className="flex flex-wrap items-end gap-x-4 gap-y-1 mb-6">
+              <span className="text-3xl lg:text-4xl font-bold text-primary-dark tracking-tight">
+                ৳{current.price}
+              </span>
+              {current.numReviews > 0 && (
+                <span className="text-sm text-muted pb-1">
+                  <span className="text-amber-600 font-semibold">★ {current.rating}</span>
+                  <span className="text-muted/80"> · {current.numReviews} reviews</span>
+                </span>
+              )}
+            </div>
+
+            <div className="flex flex-wrap gap-3">
+              <Link to={`/product/${current._id}`} className="btn-primary no-underline text-sm md:text-base">
+                <FaShoppingBag className="w-4 h-4" /> Shop now
+              </Link>
+              <Link to="/products" className="btn-outline no-underline text-sm">
+                Browse all
+              </Link>
+            </div>
+          </div>
         </div>
       </div>
 
+      {/* Arrows — on full hero, not inside image only */}
       {products.length > 1 && (
-        <div className="absolute bottom-4 left-1/2 -translate-x-1/2 z-20 flex items-center gap-2">
-          {products.map((_, i) => (
-            <button
-              key={i}
-              type="button"
-              onClick={() => setIndex(i)}
-              className={`rounded-full transition-all ${
-                i === index ? "h-2 w-8 bg-white shadow-glow" : "h-2 w-2 bg-white/40 hover:bg-white/70"
-              }`}
-              aria-label={`Slide ${i + 1}`}
-            />
-          ))}
-        </div>
+        <>
+          <button
+            type="button"
+            onClick={() => goTo(-1)}
+            className="absolute left-3 bottom-[4.5rem] md:bottom-auto md:left-4 md:top-1/2 md:-translate-y-1/2 z-20 w-10 h-10 md:w-11 md:h-11 rounded-full bg-white/95 backdrop-blur border border-accent-light shadow-card flex items-center justify-center text-primary-dark hover:bg-white transition-all"
+            aria-label="Previous slide"
+          >
+            <FaChevronLeft className="w-4 h-4" />
+          </button>
+          <button
+            type="button"
+            onClick={() => goTo(1)}
+            className="absolute right-3 bottom-[4.5rem] md:bottom-auto md:right-4 md:top-1/2 md:-translate-y-1/2 z-20 w-10 h-10 md:w-11 md:h-11 rounded-full bg-white/95 backdrop-blur border border-accent-light shadow-card flex items-center justify-center text-primary-dark hover:bg-white transition-all"
+            aria-label="Next slide"
+          >
+            <FaChevronRight className="w-4 h-4" />
+          </button>
+
+          {/* Dots — centered on whole card */}
+          <div className="absolute bottom-4 left-0 right-0 flex items-center justify-center gap-2 z-20">
+            {products.map((_, i) => (
+              <button
+                key={i}
+                type="button"
+                onClick={() => setIndex(i)}
+                className={`rounded-full transition-all duration-300 ${
+                  i === index
+                    ? "h-2 w-7 bg-primary-dark"
+                    : "h-2 w-2 bg-accent-light hover:bg-primary/40"
+                }`}
+                aria-label={`Go to slide ${i + 1}`}
+              />
+            ))}
+          </div>
+        </>
       )}
     </section>
   );

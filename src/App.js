@@ -29,7 +29,7 @@ function App() {
     <Router>
       <Header />
       <Toast />
-      <main className="py-8 min-h-[80vh] relative bg-mesh-gradient">
+      <main className="py-6 md:py-8 min-h-[80vh] relative bg-surface-muted">
         <div className="container mx-auto px-4 max-w-7xl relative z-10">
           <Routes>
             <Route path="/" element={<HomeScreen />} exact />

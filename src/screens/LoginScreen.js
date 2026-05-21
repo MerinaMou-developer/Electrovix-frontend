@@ -25,7 +25,7 @@ function LoginScreen() {
   };
 
   return (
-    <div className="min-h-[80vh] flex items-center justify-center py-12 px-4 bg-hero-gradient">
+    <div className="min-h-[80vh] flex items-center justify-center py-12 px-4 bg-surface-muted">
       <div className="w-full max-w-4xl flex flex-col md:flex-row items-center gap-8 md:gap-12">
         <div className="hidden md:block md:w-1/2 text-center">
           <img src="/images/login-rafiki.png" alt="Sign in" className="max-w-full h-auto rounded-2xl" />

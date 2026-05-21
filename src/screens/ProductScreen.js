@@ -74,7 +74,7 @@ function ProductScreen() {
           </div>
           <div className="md:col-span-6 space-y-4">
             <h1 className="text-2xl md:text-3xl font-bold text-primary">{product.name}</h1>
-            <Rating value={product.rating} text={`${product.numReviews} reviews`} color="#1976D2" />
+            <Rating value={product.rating} text={`${product.numReviews} reviews`} color="#455A64" />
             <p className="text-gray-600 leading-relaxed">{product.description}</p>
             <div className="flex items-baseline gap-3 flex-wrap">
               {discountPrice ? (
@@ -117,7 +117,7 @@ function ProductScreen() {
           <ul className="space-y-4 divide-y divide-gray-100">
             {product.reviews?.map((review) => (
               <li key={review._id} className="pt-4 first:pt-0">
-                <div className="flex items-center gap-2 mb-1"><strong className="text-primary">{review.name}</strong><Rating value={review.rating} color="#1976D2" /></div>
+                <div className="flex items-center gap-2 mb-1"><strong className="text-primary">{review.name}</strong><Rating value={review.rating} color="#455A64" /></div>
                 <p className="text-sm text-gray-500 mb-1">{review.createdAt?.substring(0, 10)}</p>
                 <p className="text-gray-700">{review.comment}</p>
               </li>

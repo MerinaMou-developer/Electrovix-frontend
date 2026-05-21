@@ -4,25 +4,23 @@ import { FaTag, FaArrowRight } from "react-icons/fa";
 
 function DealsBanner() {
   return (
-    <section className="py-8">
+    <section className="py-6">
       <Link
         to="/products?filter_by=discount"
-        className="group block rounded-3xl overflow-hidden bg-deals-gradient p-6 md:p-10 text-white shadow-card-hover hover:shadow-glow transition-all duration-300 no-underline border border-white/20"
+        className="group flex flex-col md:flex-row md:items-center justify-between gap-6 rounded-2xl bg-deals-panel p-6 md:p-8 text-white shadow-card hover:shadow-card-hover transition-all no-underline"
       >
-        <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-6">
-          <div className="flex items-center gap-5">
-            <div className="w-16 h-16 rounded-2xl bg-white/20 backdrop-blur border border-white/30 flex items-center justify-center group-hover:scale-105 transition-transform">
-              <FaTag className="w-8 h-8" />
-            </div>
-            <div>
-              <h3 className="text-2xl md:text-3xl font-extrabold tracking-tight">Hot Deals</h3>
-              <p className="text-accent-pale/90 text-sm md:text-base mt-1">Up to 50% off on selected electronics</p>
-            </div>
+        <div className="flex items-center gap-4">
+          <div className="w-14 h-14 rounded-xl bg-white/15 flex items-center justify-center shrink-0">
+            <FaTag className="w-7 h-7" />
           </div>
-          <span className="inline-flex items-center gap-2 font-bold text-lg md:text-xl shrink-0 bg-white/20 backdrop-blur px-5 py-3 rounded-xl border border-white/25 group-hover:bg-white group-hover:text-primary transition-all">
-            Shop Deals <FaArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-          </span>
+          <div>
+            <h3 className="text-xl md:text-2xl font-bold">Limited-time deals</h3>
+            <p className="text-white/80 text-sm mt-1">Save on laptops, phones & accessories</p>
+          </div>
         </div>
+        <span className="inline-flex items-center gap-2 font-semibold bg-white text-primary-dark px-5 py-3 rounded-lg group-hover:bg-accent-pale transition-colors shrink-0">
+          Shop deals <FaArrowRight className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
+        </span>
       </Link>
     </section>
   );
