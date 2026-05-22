@@ -9,8 +9,10 @@ const BrandList = ({ selectedBrand, onBrandClick }) => {
   const { loading, error, brands } = brandList;
 
   useEffect(() => {
-    dispatch(listBrands());
-  }, [dispatch]);
+    if (!brands.length && !loading) {
+      dispatch(listBrands());
+    }
+  }, [dispatch, brands.length, loading]);
 
   return (
     <div>

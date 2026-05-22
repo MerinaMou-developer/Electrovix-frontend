@@ -33,8 +33,18 @@ import {
 
 export const productListReducer = (state = { products: [] }, action) => {
   switch (action.type) {
-    case PRODUCT_LIST_REQUEST:
-      return { loading: true, products: [] };
+    case PRODUCT_LIST_REQUEST: {
+      const cached = action.payload;
+      if (cached?.products?.length) {
+        return {
+          loading: true,
+          products: cached.products,
+          page: cached.page,
+          pages: cached.pages,
+        };
+      }
+      return { ...state, loading: true };
+    }
 
     case PRODUCT_LIST_SUCCESS:
       return {
@@ -56,7 +66,10 @@ export const productListReducer = (state = { products: [] }, action) => {
 export const categoryListReducer = (state = { categories: [] }, action) => {
   switch (action.type) {
     case CATEGORY_LIST_REQUEST:
-      return { loading: true, categories: [] };
+      if (action.payload?.length) {
+        return { loading: true, categories: action.payload };
+      }
+      return { ...state, loading: true };
     case CATEGORY_LIST_SUCCESS:
       return { loading: false, categories: action.payload };
     case CATEGORY_LIST_FAIL:
@@ -70,7 +83,10 @@ export const categoryListReducer = (state = { categories: [] }, action) => {
 export const brandListReducer = (state = { brands: [] }, action) => {
   switch (action.type) {
     case BRAND_LIST_REQUEST:
-      return { loading: true, brands: [] };
+      if (action.payload?.length) {
+        return { loading: true, brands: action.payload };
+      }
+      return { ...state, loading: true };
     case BRAND_LIST_SUCCESS:
       return { loading: false, brands: action.payload };
     case BRAND_LIST_FAIL:

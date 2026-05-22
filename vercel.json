@@ -1,0 +1,11 @@
+{
+  "framework": "create-react-app",
+  "buildCommand": "npm run build",
+  "installCommand": "npm install",
+  "outputDirectory": "build",
+  "env": {
+    "CI": "false",
+    "NPM_CONFIG_LOGLEVEL": "error",
+    "GENERATE_SOURCEMAP": "false"
+  }
+}

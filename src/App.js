@@ -23,10 +23,12 @@ import OrderListScreen from "./screens/OrderListScreen";
 import AboutScreen from "./screens/AboutScreen";
 import ContactScreen from "./screens/ContactScreen";
 import AIChatWidget from "./components/AIChatWidget";
+import AppBootstrap from "./components/AppBootstrap";
 
 function App() {
   return (
     <Router>
+      <AppBootstrap />
       <Header />
       <Toast />
       <main className="py-6 md:py-8 min-h-[80vh] relative bg-surface-muted">

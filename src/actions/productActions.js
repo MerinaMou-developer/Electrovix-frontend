@@ -29,6 +29,8 @@ import {
   BRAND_LIST_FAIL,
 } from "../constants/productConstants";
 import { API_BASE_URL } from "../config";
+import { readCache, writeCache, cacheKey } from "../utils/apiCache";
+
 export const listProducts =
   (
     keyword = "",
@@ -40,14 +42,19 @@ export const listProducts =
     maxPrice = ""
   ) =>
   async (dispatch) => {
-    try {
-      dispatch({ type: PRODUCT_LIST_REQUEST });
+    const query = `?keyword=${keyword}&filter_by=${filterBy}&page=${page}&category_slug=${category_slug}&brand_slug=${brand_slug}&minPrice=${minPrice}&maxPrice=${maxPrice}`;
+    const key = cacheKey("products", query);
+    const cached = readCache(key);
 
-      // Construct query string
-      const query = `?keyword=${keyword}&filter_by=${filterBy}&page=${page}&category_slug=${category_slug}&brand_slug=${brand_slug}&minPrice=${minPrice}&maxPrice=${maxPrice}`;
-      console.log("API Query:", query); // Log the query
+    try {
+      dispatch({ type: PRODUCT_LIST_REQUEST, payload: cached });
+
+      if (cached) {
+        dispatch({ type: PRODUCT_LIST_SUCCESS, payload: cached });
+      }
+
       const { data } = await axios.get(`${API_BASE_URL}/api/products/${query}`);
-      console.log("API Response:", data); // Log the API response
+      writeCache(key, data);
 
       dispatch({
         type: PRODUCT_LIST_SUCCESS,
@@ -66,10 +73,18 @@ export const listProducts =
 
 // Fetch Categories
 export const listCategories = () => async (dispatch) => {
+  const key = cacheKey("categories");
+  const cached = readCache(key, 10 * 60 * 1000);
+
   try {
-    dispatch({ type: CATEGORY_LIST_REQUEST });
+    dispatch({ type: CATEGORY_LIST_REQUEST, payload: cached });
+
+    if (cached) {
+      dispatch({ type: CATEGORY_LIST_SUCCESS, payload: cached });
+    }
 
     const { data } = await axios.get(`${API_BASE_URL}/api/products/categories/`);
+    writeCache(key, data);
 
     dispatch({
       type: CATEGORY_LIST_SUCCESS,
@@ -88,10 +103,18 @@ export const listCategories = () => async (dispatch) => {
 
 // Fetch Brands
 export const listBrands = () => async (dispatch) => {
+  const key = cacheKey("brands");
+  const cached = readCache(key, 10 * 60 * 1000);
+
   try {
-    dispatch({ type: BRAND_LIST_REQUEST });
+    dispatch({ type: BRAND_LIST_REQUEST, payload: cached });
+
+    if (cached) {
+      dispatch({ type: BRAND_LIST_SUCCESS, payload: cached });
+    }
 
     const { data } = await axios.get(`${API_BASE_URL}/api/products/brand/`);
+    writeCache(key, data);
 
     dispatch({
       type: BRAND_LIST_SUCCESS,

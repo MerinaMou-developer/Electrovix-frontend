@@ -9,6 +9,16 @@
       name="description"
       content="Electrovix – Fast, trusted e-commerce for electronics and more."
     />
+    <link rel="dns-prefetch" href="https://electrovix-backend.onrender.com" />
+    <link rel="preconnect" href="https://electrovix-backend.onrender.com" crossorigin />
+    <script>
+      (function () {
+        fetch("https://electrovix-backend.onrender.com/api/health/", {
+          mode: "cors",
+          credentials: "omit",
+        }).catch(function () {});
+      })();
+    </script>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet" />

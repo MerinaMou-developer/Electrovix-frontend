@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import Product from "../components/Product";
-import Loader from "../components/Loader";
+import ProductSkeleton from "../components/ProductSkeleton";
 import Message from "../components/Message";
 import Paginate from "../components/Paginate";
 import ProductCarousel from "../components/ProductCarousel";
@@ -170,8 +170,8 @@ function HomeScreen() {
               ))}
             </div>
 
-            {loading ? (
-              <Loader />
+            {loading && products.length === 0 ? (
+              <ProductSkeleton count={6} />
             ) : error ? (
               <Message variant="danger">{error}</Message>
             ) : products.length === 0 ? (

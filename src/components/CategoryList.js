@@ -9,8 +9,10 @@ const CategoryList = ({ selectedCategory, onCategoryClick }) => {
   const { loading, error, categories } = categoryList;
 
   useEffect(() => {
-    dispatch(listCategories());
-  }, [dispatch]);
+    if (!categories.length && !loading) {
+      dispatch(listCategories());
+    }
+  }, [dispatch, categories.length, loading]);
 
   return (
     <div>
