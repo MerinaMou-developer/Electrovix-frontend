@@ -1,19 +1,26 @@
 import React, { useState, useEffect } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import Loader from "../components/Loader";
+import { FaEnvelope, FaLock, FaUserShield, FaUser } from "react-icons/fa";
 import Message from "../components/Message";
+import AuthLayout from "../components/auth/AuthLayout";
+import AuthInput from "../components/auth/AuthInput";
+import AuthDivider from "../components/auth/AuthDivider";
+import GoogleSignInButton from "../components/GoogleSignInButton";
 import { login } from "../actions/userActions";
+import { USER_LOGIN_FAIL } from "../constants/userConstants";
 
 function LoginScreen() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [showDemo, setShowDemo] = useState(false);
   const dispatch = useDispatch();
   const location = useLocation();
   const navigate = useNavigate();
-  const redirect = location.search ? "/" + new URLSearchParams(location.search).get("redirect") : "/";
-  const userLogin = useSelector((state) => state.userLogin);
-  const { error, loading, userInfo } = userLogin;
+  const redirect = location.search
+    ? "/" + new URLSearchParams(location.search).get("redirect")
+    : "/";
+  const { error, loading, userInfo } = useSelector((state) => state.userLogin);
 
   useEffect(() => {
     if (userInfo) navigate(redirect);
@@ -24,81 +31,142 @@ function LoginScreen() {
     dispatch(login(email, password));
   };
 
-  return (
-    <div className="min-h-[80vh] flex items-center justify-center py-12 px-4 bg-surface-muted">
-      <div className="w-full max-w-4xl flex flex-col md:flex-row items-center gap-8 md:gap-12">
-        <div className="hidden md:block md:w-1/2 text-center">
-          <img src="/images/login-rafiki.png" alt="Sign in" className="max-w-full h-auto rounded-2xl" />
-        </div>
-        <div className="w-full md:w-1/2 max-w-md bg-white rounded-2xl shadow-card-hover border border-accent-light/40 p-8">
-          <h1 className="text-2xl font-bold text-primary text-center mb-6">Sign In</h1>
-          {error && <Message variant="danger">{error}</Message>}
-          {loading && <Loader />}
-          <form onSubmit={submitHandler} className="space-y-4">
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Email</label>
-              <input
-                type="email"
-                placeholder="you@example.com"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                className="w-full border border-gray-200 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-accent/30 focus:border-accent transition-shadow"
-              />
-            </div>
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Password</label>
-              <input
-                type="password"
-                placeholder="••••••••"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                className="w-full border border-gray-200 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-accent/30 focus:border-accent transition-shadow"
-              />
-            </div>
-            <button type="submit" className="w-full bg-primary hover:bg-primary-light text-white font-semibold py-3 px-4 rounded-xl transition-all duration-200 hover:shadow-glow">
-              Sign In
-            </button>
-          </form>
-          <p className="text-center mt-6 text-gray-600 text-sm">
-            New customer?{" "}
-            <Link to={redirect ? `/register?redirect=${redirect}` : "/register"} className="text-accent font-semibold hover:underline no-underline">
-              Create account
-            </Link>
-          </p>
+  const registerLink = location.search
+    ? `/register${location.search}`
+    : "/register";
 
-          {/* Demo credentials for recruiters */}
-          <div className="mt-8 pt-6 border-t border-gray-100">
-            <p className="text-xs font-medium text-gray-500 uppercase tracking-wider mb-3 text-center">Demo credentials</p>
-            <div className="space-y-3">
-              <button
-                type="button"
-                onClick={() => { setEmail("demo@example.com"); setPassword("demo1234"); }}
-                className="w-full flex items-center justify-between gap-3 p-3 rounded-xl bg-accent-pale/50 hover:bg-accent-pale border border-accent-light/40 hover:border-accent transition-all group"
-              >
-                <div className="text-left">
-                  <span className="block text-xs font-medium text-slate-500">User</span>
-                  <span className="text-sm font-medium text-slate-800 group-hover:text-primary">demo@example.com</span>
-                  <span className="text-xs text-slate-400">••••••••</span>
-                </div>
-                <span className="text-xs font-medium text-primary bg-accent-light/50 px-2 py-1 rounded-lg">Click to fill</span>
-              </button>
-              <button
-                type="button"
-                onClick={() => { setEmail("admin@gmail.com"); setPassword("123"); }}
-                className="w-full flex items-center justify-between gap-3 p-3 rounded-xl bg-surface-muted hover:bg-accent-pale border border-accent-light/40 hover:border-primary-light transition-all group"
-              >
-                <div className="text-left">
-                  <span className="block text-xs font-medium text-slate-500">Admin</span>
-                  <span className="text-sm font-medium text-slate-800 group-hover:text-primary">admin@gmail.com</span>
-                  <span className="text-xs text-slate-400">•••</span>
-                </div>
-                <span className="text-xs font-medium text-white bg-primary-light px-2 py-1 rounded-lg">Click to fill</span>
-              </button>
-            </div>
-          </div>
+  return (
+    <AuthLayout
+      title="Welcome back"
+      subtitle="Sign in to continue shopping and manage your orders."
+      illustration="/images/login-rafiki.png"
+      illustrationAlt="Sign in to Electrovix"
+    >
+      {error && (
+        <div className="mb-5">
+          <Message variant="danger">{error}</Message>
         </div>
+      )}
+
+      <form onSubmit={submitHandler} className="space-y-5 relative">
+        {loading && (
+          <div className="absolute inset-0 z-20 flex items-center justify-center rounded-2xl bg-white/70 backdrop-blur-[2px]">
+            <div className="w-10 h-10 border-4 border-accent-light border-t-primary rounded-full animate-spin" />
+          </div>
+        )}
+
+        <AuthInput
+          label="Email"
+          type="email"
+          icon={FaEnvelope}
+          placeholder="you@example.com"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          autoComplete="email"
+          required
+        />
+
+        <AuthInput
+          label="Password"
+          type="password"
+          icon={FaLock}
+          placeholder="Enter your password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          autoComplete="current-password"
+          required
+          rightSlot={
+            <Link
+              to="/forgot-password"
+              className="text-xs font-semibold text-primary hover:text-primary-light no-underline"
+            >
+              Forgot password?
+            </Link>
+          }
+        />
+
+        <button
+          type="submit"
+          disabled={loading}
+          className="btn-primary w-full rounded-xl py-3.5 text-base disabled:opacity-60 disabled:cursor-not-allowed"
+        >
+          {loading ? "Signing in..." : "Sign in"}
+        </button>
+      </form>
+
+      <AuthDivider />
+
+      <GoogleSignInButton
+        disabled={loading}
+        onError={(msg) => dispatch({ type: USER_LOGIN_FAIL, payload: msg })}
+      />
+
+      <p className="text-center mt-8 text-sm text-muted">
+        New to Electrovix?{" "}
+        <Link
+          to={registerLink}
+          className="font-semibold text-primary hover:text-primary-light no-underline hover:underline"
+        >
+          Create an account
+        </Link>
+      </p>
+
+      <div className="mt-8 pt-6 border-t border-accent-light/60">
+        <button
+          type="button"
+          onClick={() => setShowDemo((v) => !v)}
+          className="w-full flex items-center justify-between text-xs font-semibold uppercase tracking-wider text-muted hover:text-primary transition-colors"
+        >
+          <span>Demo credentials (recruiters)</span>
+          <span className="text-primary">{showDemo ? "−" : "+"}</span>
+        </button>
+
+        {showDemo && (
+          <div className="mt-4 space-y-3 animate-fade-in">
+            <button
+              type="button"
+              onClick={() => {
+                setEmail("demo@example.com");
+                setPassword("demo1234");
+              }}
+              className="w-full flex items-center gap-3 p-3.5 rounded-xl bg-accent-pale/60 hover:bg-accent-pale border border-accent-light/50 transition-all text-left group"
+            >
+              <span className="w-10 h-10 rounded-lg bg-white flex items-center justify-center text-primary shadow-soft">
+                <FaUser className="w-4 h-4" />
+              </span>
+              <div className="flex-1 min-w-0">
+                <span className="block text-xs text-muted">Customer demo</span>
+                <span className="text-sm font-semibold text-primary-dark truncate">
+                  demo@example.com
+                </span>
+              </div>
+              <span className="text-xs font-medium text-primary shrink-0">Fill</span>
+            </button>
+            <button
+              type="button"
+              onClick={() => {
+                setEmail("admin@gmail.com");
+                setPassword("123");
+              }}
+              className="w-full flex items-center gap-3 p-3.5 rounded-xl bg-primary/5 hover:bg-primary/10 border border-primary/20 transition-all text-left group"
+            >
+              <span className="w-10 h-10 rounded-lg bg-primary flex items-center justify-center text-white shadow-soft">
+                <FaUserShield className="w-4 h-4" />
+              </span>
+              <div className="flex-1 min-w-0">
+                <span className="block text-xs text-muted">Admin demo</span>
+                <span className="text-sm font-semibold text-primary-dark truncate">
+                  admin@gmail.com
+                </span>
+              </div>
+              <span className="text-xs font-medium text-white bg-primary px-2 py-1 rounded-lg shrink-0">
+                Fill
+              </span>
+            </button>
+          </div>
+        )}
       </div>
-    </div>
+    </AuthLayout>
   );
 }
 

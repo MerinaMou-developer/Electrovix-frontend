@@ -1,10 +1,15 @@
 import React, { useState, useEffect } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import Loader from "../components/Loader";
+import { FaEnvelope, FaLock, FaUser } from "react-icons/fa";
 import Message from "../components/Message";
+import AuthLayout from "../components/auth/AuthLayout";
+import AuthInput from "../components/auth/AuthInput";
+import AuthDivider from "../components/auth/AuthDivider";
+import GoogleSignInButton from "../components/GoogleSignInButton";
 import { register } from "../actions/userActions";
-import { showSuccessToast } from "../components/Toast"; // Import the toast utility function
+import { USER_LOGIN_FAIL } from "../constants/userConstants";
+import { showSuccessToast } from "../components/Toast";
 
 function RegisterScreen() {
   const [name, setName] = useState("");
@@ -18,100 +23,140 @@ function RegisterScreen() {
   const navigate = useNavigate();
 
   const params = new URLSearchParams(location.search);
-  const redirect = params.get("redirect") ? params.get("redirect") : "/";
+  const redirect = params.get("redirect") ? `/${params.get("redirect")}` : "/";
 
-  const userRegister = useSelector((state) => state.userRegister);
-  const { error, loading, success } = userRegister;
+  const { error, loading, success } = useSelector((state) => state.userRegister);
+  const { userInfo } = useSelector((state) => state.userLogin);
+
+  useEffect(() => {
+    if (userInfo) navigate(redirect);
+  }, [userInfo, navigate, redirect]);
 
   useEffect(() => {
     if (success) {
-      // Show success toast notification
       showSuccessToast(
-        "Registration successful! Please check your email to activate your account."
+        "Registration successful! Check your email to activate your account."
       );
-      // navigate(redirect); // Redirect to the specified page after successful registration
     }
-  }, [success, navigate, redirect]);
+  }, [success]);
 
   const submitHandler = (e) => {
     e.preventDefault();
     if (password !== confirmPassword) {
       setMessage("Passwords do not match");
+    } else if (password.length < 8) {
+      setMessage("Password must be at least 8 characters");
     } else {
       setMessage("");
       dispatch(register(name, email, password));
     }
   };
 
+  const loginLink = params.get("redirect")
+    ? `/login?redirect=${params.get("redirect")}`
+    : "/login";
+
   return (
-    <div className="min-h-[80vh] flex items-center justify-center py-12 px-4 bg-gradient-to-br from-primary via-primary-light to-primary">
-      <div className="w-full max-w-4xl flex flex-col md:flex-row items-center gap-8 md:gap-12">
-        <div className="hidden md:block md:w-1/2 text-center">
-          <img src="/images/Signup-rafiki.png" alt="Create account" className="max-w-full h-auto rounded-2xl" />
-        </div>
-        <div className="w-full md:w-1/2 max-w-md bg-white rounded-2xl shadow-card-hover border border-gray-100 p-8 max-h-[90vh] overflow-y-auto">
-          <h1 className="text-2xl font-bold text-primary text-center mb-6">Create Account</h1>
+    <AuthLayout
+      title="Create your account"
+      subtitle="Join Electrovix for faster checkout, order tracking, and AI shopping help."
+      illustration="/images/Signup-rafiki.png"
+      illustrationAlt="Create account"
+      maxWidth="max-w-lg"
+    >
+      {(message || error) && (
+        <div className="mb-5 space-y-3">
           {message && <Message variant="danger">{message}</Message>}
           {error && <Message variant="danger">{error}</Message>}
-          {loading && <Loader />}
-          <form onSubmit={submitHandler} className="space-y-4">
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Name</label>
-              <input
-                required
-                type="text"
-                placeholder="Enter your full name"
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-                className="w-full border border-gray-200 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-accent/30 focus:border-accent"
-              />
-            </div>
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Email Address</label>
-              <input
-                required
-                type="email"
-                placeholder="Enter your email address"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                className="w-full border border-gray-200 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-accent/30 focus:border-accent"
-              />
-            </div>
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Password</label>
-              <input
-                required
-                type="password"
-                placeholder="Enter a secure password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                className="w-full border border-gray-200 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-accent/30 focus:border-accent"
-              />
-            </div>
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Confirm Password</label>
-              <input
-                required
-                type="password"
-                placeholder="Re-enter your password"
-                value={confirmPassword}
-                onChange={(e) => setConfirmPassword(e.target.value)}
-                className="w-full border border-gray-200 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-accent/30 focus:border-accent"
-              />
-            </div>
-            <button type="submit" className="w-full bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded-lg transition-colors">
-              Register
-            </button>
-          </form>
-          <p className="text-center mt-4 text-gray-600">
-            Already have an account?{" "}
-            <Link to={redirect ? `/login?redirect=${redirect}` : "/login"} className="text-accent font-semibold hover:underline no-underline">
-              Sign In
-            </Link>
-          </p>
         </div>
-      </div>
-    </div>
+      )}
+
+      {success && (
+        <div className="mb-5">
+          <Message variant="success">
+            Account created! Check your inbox to activate, then sign in.
+          </Message>
+        </div>
+      )}
+
+      <form onSubmit={submitHandler} className="space-y-4 relative">
+        {loading && (
+          <div className="absolute inset-0 z-20 flex items-center justify-center rounded-2xl bg-white/70 backdrop-blur-[2px]">
+            <div className="w-10 h-10 border-4 border-accent-light border-t-primary rounded-full animate-spin" />
+          </div>
+        )}
+
+        <AuthInput
+          label="Full name"
+          type="text"
+          icon={FaUser}
+          required
+          placeholder="Your name"
+          value={name}
+          onChange={(e) => setName(e.target.value)}
+          autoComplete="name"
+        />
+        <AuthInput
+          label="Email"
+          type="email"
+          icon={FaEnvelope}
+          required
+          placeholder="you@example.com"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          autoComplete="email"
+        />
+        <AuthInput
+          label="Password"
+          type="password"
+          icon={FaLock}
+          required
+          placeholder="Min. 8 characters"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          autoComplete="new-password"
+        />
+        <AuthInput
+          label="Confirm password"
+          type="password"
+          icon={FaLock}
+          required
+          placeholder="Repeat password"
+          value={confirmPassword}
+          onChange={(e) => setConfirmPassword(e.target.value)}
+          autoComplete="new-password"
+        />
+
+        <button
+          type="submit"
+          disabled={loading || success}
+          className="btn-primary w-full rounded-xl py-3.5 mt-2 disabled:opacity-60"
+        >
+          {loading ? "Creating account..." : "Create account"}
+        </button>
+      </form>
+
+      <AuthDivider label="or sign up with" />
+
+      <GoogleSignInButton
+        disabled={loading}
+        onError={(msg) => dispatch({ type: USER_LOGIN_FAIL, payload: msg })}
+      />
+
+      <p className="text-center mt-8 text-sm text-muted">
+        Already have an account?{" "}
+        <Link
+          to={loginLink}
+          className="font-semibold text-primary no-underline hover:underline"
+        >
+          Sign in
+        </Link>
+      </p>
+
+      <p className="text-center mt-4 text-xs text-muted/80 leading-relaxed">
+        By registering, you agree to receive account emails (activation & orders).
+      </p>
+    </AuthLayout>
   );
 }
 

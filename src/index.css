@@ -40,6 +40,15 @@
   .product-card {
     @apply bg-white rounded-xl border border-accent-light/50 shadow-soft hover:shadow-card-hover transition-all duration-300;
   }
+  .auth-panel-gradient {
+    background: linear-gradient(145deg, #263238 0%, #37474f 45%, #455a64 100%);
+  }
+  .auth-form-card {
+    @apply backdrop-blur-sm;
+  }
+  .auth-input {
+    @apply text-sm md:text-base;
+  }
 }
 
 .rating span {

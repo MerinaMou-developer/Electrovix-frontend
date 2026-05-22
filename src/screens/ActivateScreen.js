@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams, useNavigate, Link } from "react-router-dom";
 import { FaCheckCircle, FaTimesCircle } from "react-icons/fa";
 import axios from "axios";
+import AuthLayout from "../components/auth/AuthLayout";
 import { API_BASE_URL } from "../config";
+
 function ActivateScreen() {
   const { uid, token } = useParams();
   const navigate = useNavigate();
@@ -23,11 +25,7 @@ function ActivateScreen() {
           success: true,
           message: data.detail || "Account activated successfully.",
         });
-
-        // Redirect to login after 3 seconds
-        setTimeout(() => {
-          navigate("/login");
-        }, 3000);
+        setTimeout(() => navigate("/login"), 3000);
       } catch (err) {
         setStatus({
           loading: false,
@@ -41,40 +39,48 @@ function ActivateScreen() {
     activateAccount();
   }, [uid, token, navigate]);
 
-  const getCardContent = () => {
-    if (status.loading) {
-      return (
-        <>
-          <div className="w-12 h-12 border-4 border-primary-light border-t-transparent rounded-full animate-spin mx-auto mb-4" role="status" aria-label="Loading" />
-          <h3>Loading...</h3>
-        </>
-      );
-    }
-    if (status.success) {
-      return (
-        <>
-          <FaCheckCircle size={80} className="text-green-500 mb-4 mx-auto" aria-label="Success icon" />
-          <h2 className="text-xl font-bold mb-2">Activation Successful</h2>
-          <p>{status.message}</p>
-          <p className="text-gray-600">Redirecting to login page...</p>
-        </>
-      );
-    }
-    return (
-      <>
-        <FaTimesCircle size={80} className="text-red-500 mb-4 mx-auto" aria-label="Error icon" />
-        <h2 className="text-xl font-bold mb-2">Activation Failed</h2>
-        <p>{status.message}</p>
-      </>
-    );
-  };
-
   return (
-    <div className="min-h-screen bg-gray-100 flex items-center justify-center p-4">
-      <div className="bg-white text-center p-8 shadow-lg rounded-2xl max-w-md w-full">
-        {getCardContent()}
+    <AuthLayout
+      title={
+        status.loading
+          ? "Activating account"
+          : status.success
+          ? "You're all set!"
+          : "Activation failed"
+      }
+      subtitle={
+        status.loading
+          ? "Please wait while we verify your link..."
+          : status.success
+          ? "Your Electrovix account is ready to use."
+          : "This link may be expired or already used."
+      }
+      illustration="/images/Signup-rafiki.png"
+      maxWidth="max-w-lg"
+    >
+      <div className="text-center py-4">
+        {status.loading && (
+          <div className="w-14 h-14 border-4 border-accent-light border-t-primary rounded-full animate-spin mx-auto mb-6" />
+        )}
+        {status.success && (
+          <FaCheckCircle className="w-16 h-16 text-green-500 mx-auto mb-4" />
+        )}
+        {status.success === false && (
+          <FaTimesCircle className="w-16 h-16 text-red-500 mx-auto mb-4" />
+        )}
+        {status.message && (
+          <p className="text-muted text-sm leading-relaxed">{status.message}</p>
+        )}
+        {status.success && (
+          <p className="text-xs text-muted mt-3">Redirecting to sign in...</p>
+        )}
+        {status.success === false && (
+          <Link to="/login" className="btn-primary inline-flex mt-6 rounded-xl no-underline">
+            Go to sign in
+          </Link>
+        )}
       </div>
-    </div>
+    </AuthLayout>
   );
 }
 

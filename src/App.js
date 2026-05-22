@@ -3,12 +3,15 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
 import Toast from "./components/Toast";
+import MainLayout from "./components/MainLayout";
 import HomeScreen from "./screens/HomeScreen";
 import ProductsScreen from "./screens/ProductsScreen";
 import ProductScreen from "./screens/ProductScreen";
 import CartScreen from "./screens/CartScreen";
 import LoginScreen from "./screens/LoginScreen";
 import RegisterScreen from "./screens/RegisterScreen";
+import ForgotPasswordScreen from "./screens/ForgotPasswordScreen";
+import ResetPasswordScreen from "./screens/ResetPasswordScreen";
 import ActivateScreen from "./screens/ActivateScreen";
 import ProfileScreen from "./screens/ProfileScreen";
 import ShippingScreen from "./screens/ShippingScreen";
@@ -32,29 +35,141 @@ function App() {
       <Header />
       <Toast />
       <main className="py-6 md:py-8 min-h-[80vh] relative bg-surface-muted">
-        <div className="container mx-auto px-4 max-w-7xl relative z-10">
-          <Routes>
-            <Route path="/" element={<HomeScreen />} exact />
-            <Route path="/products" element={<ProductsScreen />} />
-            <Route path="/login" element={<LoginScreen />} />
-            <Route path="/register" element={<RegisterScreen />} />
-            <Route path="/activate/:uid/:token" element={<ActivateScreen />} />
-            <Route path="/profile" element={<ProfileScreen />} />
-            <Route path="/shipping" element={<ShippingScreen />} />
-            <Route path="/payment" element={<PaymentScreen />} />
-            <Route path="/placeorder" element={<PlaceOrderScreen />} />
-            <Route path="/order/:id" element={<OrderScreen />} />
-            <Route path="/product/:id" element={<ProductScreen />} />
-            <Route path="/cart/:id?" element={<CartScreen />} />
-            <Route path="/about" element={<AboutScreen />} />
-            <Route path="/contact" element={<ContactScreen />} />
-            <Route path="/admin/userlist" element={<UserListScreen />} />
-            <Route path="/admin/user/:id/edit" element={<UserEditScreen />} />
-            <Route path="/admin/productlist" element={<ProductListScreen />} />
-            <Route path="/admin/products/:id/edit" element={<ProductEditScreen />} />
-            <Route path="/admin/orderlist" element={<OrderListScreen />} />
-          </Routes>
-        </div>
+        <Routes>
+          <Route path="/login" element={<LoginScreen />} />
+          <Route path="/register" element={<RegisterScreen />} />
+          <Route path="/forgot-password" element={<ForgotPasswordScreen />} />
+          <Route path="/reset-password/:uid/:token" element={<ResetPasswordScreen />} />
+          <Route path="/activate/:uid/:token" element={<ActivateScreen />} />
+          <Route
+            path="/"
+            element={
+              <MainLayout>
+                <HomeScreen />
+              </MainLayout>
+            }
+          />
+          <Route
+            path="/products"
+            element={
+              <MainLayout>
+                <ProductsScreen />
+              </MainLayout>
+            }
+          />
+          <Route
+            path="/profile"
+            element={
+              <MainLayout>
+                <ProfileScreen />
+              </MainLayout>
+            }
+          />
+          <Route
+            path="/shipping"
+            element={
+              <MainLayout>
+                <ShippingScreen />
+              </MainLayout>
+            }
+          />
+          <Route
+            path="/payment"
+            element={
+              <MainLayout>
+                <PaymentScreen />
+              </MainLayout>
+            }
+          />
+          <Route
+            path="/placeorder"
+            element={
+              <MainLayout>
+                <PlaceOrderScreen />
+              </MainLayout>
+            }
+          />
+          <Route
+            path="/order/:id"
+            element={
+              <MainLayout>
+                <OrderScreen />
+              </MainLayout>
+            }
+          />
+          <Route
+            path="/product/:id"
+            element={
+              <MainLayout>
+                <ProductScreen />
+              </MainLayout>
+            }
+          />
+          <Route
+            path="/cart/:id?"
+            element={
+              <MainLayout>
+                <CartScreen />
+              </MainLayout>
+            }
+          />
+          <Route
+            path="/about"
+            element={
+              <MainLayout>
+                <AboutScreen />
+              </MainLayout>
+            }
+          />
+          <Route
+            path="/contact"
+            element={
+              <MainLayout>
+                <ContactScreen />
+              </MainLayout>
+            }
+          />
+          <Route
+            path="/admin/userlist"
+            element={
+              <MainLayout>
+                <UserListScreen />
+              </MainLayout>
+            }
+          />
+          <Route
+            path="/admin/user/:id/edit"
+            element={
+              <MainLayout>
+                <UserEditScreen />
+              </MainLayout>
+            }
+          />
+          <Route
+            path="/admin/productlist"
+            element={
+              <MainLayout>
+                <ProductListScreen />
+              </MainLayout>
+            }
+          />
+          <Route
+            path="/admin/products/:id/edit"
+            element={
+              <MainLayout>
+                <ProductEditScreen />
+              </MainLayout>
+            }
+          />
+          <Route
+            path="/admin/orderlist"
+            element={
+              <MainLayout>
+                <OrderListScreen />
+              </MainLayout>
+            }
+          />
+        </Routes>
       </main>
       <AIChatWidget />
       <Footer />
