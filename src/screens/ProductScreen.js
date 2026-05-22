@@ -10,7 +10,6 @@ import {
   createProductReview,
 } from "../actions/productActions";
 import { PRODUCT_CREATE_REVIEW_RESET } from "../constants/productConstants";
-import Paginate from "../components/Paginate";
 import { getProductImageUrl } from "../config";
 function ProductScreen() {
   const [qty, setQty] = useState(1);

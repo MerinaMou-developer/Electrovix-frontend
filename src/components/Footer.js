@@ -46,10 +46,20 @@ function Footer() {
               </li>
             </ul>
             <div className="mt-4 flex gap-2">
-              {[FaFacebookF, FaTwitter, FaInstagram, FaLinkedinIn].map((Icon, i) => (
-                <a key={i} href="#" className="w-9 h-9 rounded-lg bg-white/10 flex items-center justify-center hover:bg-primary transition-colors" aria-label="Social">
+              {[
+                [FaFacebookF, "Facebook"],
+                [FaTwitter, "Twitter"],
+                [FaInstagram, "Instagram"],
+                [FaLinkedinIn, "LinkedIn"],
+              ].map(([Icon, label]) => (
+                <button
+                  key={label}
+                  type="button"
+                  className="w-9 h-9 rounded-lg bg-white/10 flex items-center justify-center hover:bg-primary transition-colors border-0 cursor-pointer text-white"
+                  aria-label={label}
+                >
                   <Icon className="w-3.5 h-3.5" />
-                </a>
+                </button>
               ))}
             </div>
           </div>

@@ -188,7 +188,7 @@ export const deleteProduct = (id) => async (dispatch, getState) => {
       },
     };
 
-    const { data } = await axios.delete(
+    await axios.delete(
       `${API_BASE_URL}/api/products/delete/${id}/`,
       config
     );

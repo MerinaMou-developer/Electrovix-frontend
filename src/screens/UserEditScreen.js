@@ -1,14 +1,11 @@
 import React, { useState, useEffect } from "react";
-import { Link, useLocation, useNavigate, useParams } from "react-router-dom"; // Use hooks from react-router-dom
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import Loader from "../components/Loader";
 import Message from "../components/Message";
 import FormContainer from "../components/FormContainer";
 import { getUserDetails, updateUser } from "../actions/userActions";
-import {
-  USER_UPDATE_REQUEST,
-  USER_UPDATE_RESET,
-} from "../constants/userConstants";
+import { USER_UPDATE_RESET } from "../constants/userConstants";
 function UserEditScreen() {
   const { id: userId } = useParams(); // `useParams` to get the product ID
   const [name, setName] = useState("");
