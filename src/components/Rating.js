@@ -17,7 +17,7 @@ function Rating({ value, text, color = "#455A64" }) {
           />
         </span>
       ))}
-      {text && <span className="text-gray-500 text-sm ml-1">{text}</span>}
+      {text && <span className="text-muted text-sm ml-1">{text}</span>}
     </div>
   );
 }

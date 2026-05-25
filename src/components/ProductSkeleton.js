@@ -9,7 +9,7 @@ function ProductSkeleton({ count = 6 }) {
       {Array.from({ length: count }).map((_, i) => (
         <div
           key={i}
-          className="rounded-xl border border-accent-light/60 bg-white p-4 shadow-soft animate-pulse"
+          className="rounded-3xl border border-accent-light/60 bg-white p-4 shadow-soft animate-pulse"
         >
           <div className="aspect-square rounded-lg bg-accent-pale mb-4" />
           <div className="h-4 bg-accent-pale rounded w-3/4 mb-2" />

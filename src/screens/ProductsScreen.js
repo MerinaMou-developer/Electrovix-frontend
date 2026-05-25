@@ -9,7 +9,7 @@ import BrandList from "../components/BrandList";
 import PriceFilter from "../components/PriceFilter";
 import { listProducts } from "../actions/productActions";
 import { useLocation, useNavigate } from "react-router-dom";
-import { FaUndo } from "react-icons/fa";
+import { FaUndo, FaSlidersH } from "react-icons/fa";
 
 function ProductsScreen() {
   const dispatch = useDispatch();
@@ -83,47 +83,63 @@ function ProductsScreen() {
     navigate("/products");
   };
 
-  return (
-    <div className="animate-fade-in">
-      <h1 className="section-title my-10">All Products</h1>
+  const filterTabs = [
+    ["", "All"],
+    ["best_seller", "Best Seller"],
+    ["featured", "Featured"],
+    ["latest", "New"],
+    ["discount", "Deals"],
+  ];
 
-      <div className="grid grid-cols-1 md:grid-cols-12 gap-8">
-        <aside className="md:col-span-3 space-y-6">
-          <div className="glass-card p-5 sticky top-28">
-            <h2 className="text-lg font-bold text-primary mb-4 flex items-center gap-2">
-              <span className="w-1 h-5 bg-accent rounded-full" />
+  const title = keyword
+    ? `Results for “${keyword}”`
+    : categorySlug || brandSlug
+    ? "Filtered products"
+    : "All products";
+
+  return (
+    <div className="animate-fade-in py-4 md:py-6">
+      <div className="mb-8">
+        <h1 className="section-title">{title}</h1>
+        <p className="section-subtitle">
+          {products.length > 0 && !loading
+            ? `${products.length} items on this page · use filters to narrow down`
+            : "Discover electronics with smart filters and AI search"}
+        </p>
+      </div>
+
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
+        <aside className="lg:col-span-3">
+          <div className="sidebar-card sticky top-36">
+            <h2 className="text-lg font-bold text-ink mb-5 flex items-center gap-2">
+              <FaSlidersH className="text-primary w-4 h-4" />
               Filters
             </h2>
             <CategoryList
               selectedCategory={categorySlug}
               onCategoryClick={handleCategoryClick}
             />
-            <BrandList
-              selectedBrand={brandSlug}
-              onBrandClick={handleBrandClick}
-            />
+            <BrandList selectedBrand={brandSlug} onBrandClick={handleBrandClick} />
             <PriceFilter onPriceFilterChange={handlePriceFilterChange} />
             <button
               type="button"
-              className="w-full mt-4 flex items-center justify-center gap-2 bg-accent-pale hover:bg-primary hover:text-white text-primary font-semibold py-3 px-4 rounded-xl transition-all duration-200 border border-accent-light/50"
+              className="w-full mt-6 flex items-center justify-center gap-2 border-2 border-accent-light text-ink font-semibold py-3 px-4 rounded-2xl hover:bg-primary hover:text-white hover:border-primary transition-all"
               onClick={resetFilters}
             >
-              <FaUndo /> Reset All
+              <FaUndo className="w-3.5 h-3.5" /> Reset all
             </button>
           </div>
         </aside>
-        <div className="md:col-span-9">
-          <div className="flex flex-wrap justify-center gap-2 mb-8">
-            {[
-              ["best_seller", "Best Seller"],
-              ["featured", "Featured"],
-              ["latest", "New"],
-              ["discount", "Discount"],
-            ].map(([value, label]) => (
+
+        <div className="lg:col-span-9">
+          <div className="flex gap-2 overflow-x-auto pb-2 mb-6 scrollbar-hide">
+            {filterTabs.map(([value, label]) => (
               <button
-                key={value}
+                key={label}
                 type="button"
-                className={`filter-pill ${filterBy === value ? "filter-pill-active" : "filter-pill-inactive"}`}
+                className={`filter-pill shrink-0 ${
+                  filterBy === value ? "filter-pill-active" : "filter-pill-inactive"
+                }`}
                 onClick={() => handleFilterChange(value)}
               >
                 {label}
@@ -135,9 +151,16 @@ function ProductsScreen() {
             <ProductSkeleton count={8} />
           ) : error ? (
             <Message variant="danger">{error}</Message>
+          ) : products.length === 0 ? (
+            <div className="text-center py-20 glass-card">
+              <p className="text-muted mb-4">No products match your filters.</p>
+              <button type="button" onClick={resetFilters} className="btn-primary">
+                Clear filters
+              </button>
+            </div>
           ) : (
             <>
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+              <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-5">
                 {products.map((product) => (
                   <Product key={product._id} product={product} />
                 ))}

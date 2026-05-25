@@ -17,7 +17,7 @@ const BrandList = ({ selectedBrand, onBrandClick }) => {
   return (
     <div>
       <div className="flex justify-between items-center my-3">
-        <h5 className="font-semibold">Our Brands</h5>
+        <h5 className="font-bold text-ink text-sm uppercase tracking-wide">Brands</h5>
         <button
           type="button"
           onClick={() => (error ? dispatch(listBrands()) : onBrandClick(""))}
@@ -37,10 +37,10 @@ const BrandList = ({ selectedBrand, onBrandClick }) => {
             <li
               key={brand._id}
               onClick={() => onBrandClick(brand.slug)}
-              className={`px-4 py-3 rounded-xl cursor-pointer transition-all duration-200 ${
+              className={`px-4 py-2.5 rounded-2xl cursor-pointer transition-all duration-200 text-sm font-medium ${
                 selectedBrand === brand.slug
-                  ? "bg-primary text-white font-medium shadow-soft"
-                  : "bg-accent-pale text-primary hover:bg-accent-light/50"
+                  ? "bg-primary text-white shadow-pill"
+                  : "bg-accent-pale text-ink-soft hover:bg-accent-light hover:text-primary"
               }`}
             >
               {brand.icon_class && <i className={brand.icon_class} />}
