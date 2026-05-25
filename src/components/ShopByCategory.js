@@ -26,12 +26,12 @@ function ShopByCategory() {
           <Link
             key={name}
             to={`/products?category_slug=${slug}`}
-            className="group flex flex-col items-center p-5 md:p-6 rounded-xl bg-white border border-accent-light/60 shadow-soft hover:shadow-card hover:border-primary/30 transition-all no-underline"
+            className="group flex flex-col items-center p-5 md:p-6 rounded-3xl bg-white border border-accent-light/60 shadow-soft hover:shadow-card-hover hover:border-primary/30 hover:-translate-y-0.5 transition-all no-underline"
           >
             <div className="w-14 h-14 rounded-xl bg-accent-pale flex items-center justify-center text-primary mb-3 group-hover:bg-primary group-hover:text-white transition-colors">
               <Icon className="w-6 h-6" />
             </div>
-            <span className="font-semibold text-primary-dark text-sm md:text-base">{name}</span>
+            <span className="font-semibold text-ink text-sm md:text-base">{name}</span>
           </Link>
         ))}
       </div>

@@ -10,7 +10,7 @@ const features = [
 
 function WhyShopWithUs() {
   return (
-    <section className="py-10 md:py-12 rounded-2xl bg-white border border-accent-light/60 shadow-soft px-6 md:px-10">
+    <section className="py-10 md:py-12 rounded-4xl bg-white border border-accent-light/60 shadow-card px-6 md:px-10 mb-8">
       <div className="text-center mb-8">
         <h2 className="section-title">Why shop with Electrovix</h2>
         <p className="section-subtitle">Built for a smooth, trustworthy shopping experience</p>
@@ -21,7 +21,7 @@ function WhyShopWithUs() {
             <div className="w-12 h-12 rounded-xl bg-accent-pale flex items-center justify-center text-primary mx-auto mb-3">
               <Icon className="w-5 h-5" />
             </div>
-            <h3 className="font-bold text-primary-dark mb-1">{title}</h3>
+            <h3 className="font-bold text-ink mb-1">{title}</h3>
             <p className="text-sm text-muted">{desc}</p>
           </div>
         ))}
