@@ -6,12 +6,12 @@ function Footer() {
   const currentYear = new Date().getFullYear();
 
   return (
-    <footer className="bg-primary-dark text-white/90 mt-12">
+    <footer className="bg-ink text-white/90 mt-16 rounded-t-4xl">
       <div className="container mx-auto px-4 py-12 md:py-14">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10">
           <div>
             <Link to="/" className="flex items-center gap-2 text-xl font-extrabold text-white no-underline">
-              <span className="w-9 h-9 rounded-lg bg-primary flex items-center justify-center text-sm font-black">E</span>
+              <span className="w-9 h-9 rounded-2xl bg-cta-gradient flex items-center justify-center text-sm font-black shadow-pill">E</span>
               Electrovix
             </Link>
             <p className="mt-4 text-white/60 text-sm leading-relaxed max-w-xs">

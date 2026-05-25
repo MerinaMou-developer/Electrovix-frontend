@@ -1,9 +1,18 @@
 import React, { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import SearchBox from "./SearchBox";
+import CategoryRibbon from "./CategoryRibbon";
 import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../actions/userActions";
-import { FaShoppingCart, FaUser, FaBars, FaTimes, FaChevronDown } from "react-icons/fa";
+import {
+  FaShoppingCart,
+  FaUser,
+  FaBars,
+  FaTimes,
+  FaChevronDown,
+  FaHeart,
+  FaClipboardList,
+} from "react-icons/fa";
 
 function Header() {
   const dispatch = useDispatch();
@@ -11,10 +20,8 @@ function Header() {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [adminOpen, setAdminOpen] = useState(false);
   const [userOpen, setUserOpen] = useState(false);
-  const userLogin = useSelector((state) => state.userLogin);
-  const { userInfo } = userLogin;
-  const cart = useSelector((state) => state.cart);
-  const { cartItems } = cart;
+  const { userInfo } = useSelector((state) => state.userLogin);
+  const { cartItems } = useSelector((state) => state.cart);
   const cartCount = cartItems.reduce((acc, item) => acc + item.qty, 0);
 
   const logoutHandler = () => {
@@ -23,141 +30,138 @@ function Header() {
     setMobileOpen(false);
   };
 
-  const isActive = (path) => location.pathname === path;
-
-  const mainLinks = [
-    { to: "/products", label: "Shop" },
-    { to: "/about", label: "About" },
-    { to: "/contact", label: "Contact" },
-  ];
+  const hideRibbon = ["/login", "/register", "/forgot-password"].some((p) =>
+    location.pathname.startsWith(p)
+  );
 
   return (
-    <header className="sticky top-0 z-50 bg-white shadow-nav-shadow">
-      <div className="bg-primary-dark text-white/90 py-1.5 text-center text-[11px] font-medium tracking-wide">
-        Free delivery on orders over ৳500 · Secure payment · Global shipping
-      </div>
-      <nav className="container mx-auto px-4 py-3 md:py-4">
-        <div className="flex items-center justify-between gap-4">
+    <header className="sticky top-0 z-50 bg-white/95 backdrop-blur-md shadow-nav-shadow">
+      <nav className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 md:py-4">
+        <div className="flex items-center gap-3 md:gap-6">
           <Link
             to="/"
-            className="flex items-center gap-2.5 text-xl font-extrabold text-primary-dark no-underline shrink-0"
+            className="flex items-center gap-2.5 text-xl font-extrabold text-ink no-underline shrink-0"
           >
-            <span className="w-9 h-9 rounded-lg bg-primary text-white flex items-center justify-center text-sm font-black">
+            <span className="w-10 h-10 rounded-2xl bg-cta-gradient text-white flex items-center justify-center text-sm font-black shadow-pill">
               E
             </span>
-            <span className="hidden sm:inline">
-              Electro<span className="text-primary font-bold">vix</span>
+            <span className="hidden sm:inline tracking-tight">
+              Electro<span className="text-primary">vix</span>
             </span>
           </Link>
 
-          <div className="hidden md:flex flex-1 max-w-xl mx-4">
+          <div className="hidden md:flex flex-1 justify-center px-4">
             <SearchBox />
           </div>
 
-          <button
-            type="button"
-            className="md:hidden p-2 rounded-lg text-primary hover:bg-accent-pale"
-            onClick={() => setMobileOpen(!mobileOpen)}
-            aria-label="Toggle menu"
-          >
-            {mobileOpen ? <FaTimes className="w-5 h-5" /> : <FaBars className="w-5 h-5" />}
-          </button>
-
-          <div className={`${mobileOpen ? "flex" : "hidden"} md:flex items-center gap-2 md:gap-3 absolute md:relative top-full left-0 right-0 md:top-auto bg-white md:bg-transparent border-b md:border-0 border-accent-light/50 md:shadow-none shadow-card p-4 md:p-0 flex-col md:flex-row`}>
-            <div className="md:hidden w-full mb-3">
-              <SearchBox />
-            </div>
-            <div className="hidden md:flex items-center gap-1 mr-2">
-              {mainLinks.map(({ to, label }) => (
-                <Link
-                  key={label}
-                  to={to}
-                  className={`px-3 py-2 rounded-lg text-sm font-medium no-underline transition-colors ${
-                    isActive(to) ? "text-primary-dark bg-accent-pale" : "text-primary hover:text-primary-dark hover:bg-accent-pale"
-                  }`}
-                >
-                  {label}
-                </Link>
-              ))}
-            </div>
-
-            {!userInfo && (
-              <Link
-                to="/login"
-                className="inline-flex items-center gap-1.5 text-sm font-semibold text-primary hover:text-primary-dark py-2 px-3 rounded-lg hover:bg-accent-pale no-underline"
-              >
-                <FaUser className="w-4 h-4" /> Sign In
+          <div className="flex items-center gap-1 md:gap-2 ml-auto">
+            {userInfo && (
+              <Link to="/profile" className="nav-icon-btn hidden sm:flex" title="Orders">
+                <FaClipboardList className="w-4 h-4" />
               </Link>
             )}
-            <Link
-              to="/cart"
-              className="inline-flex items-center gap-1.5 text-sm font-semibold bg-primary text-white py-2 px-4 rounded-lg hover:bg-primary-dark no-underline transition-colors"
-            >
-              <span className="relative">
-                <FaShoppingCart className="w-4 h-4" />
-                {cartCount > 0 && (
-                  <span className="absolute -top-2 -right-2 min-w-[1rem] h-4 px-1 flex items-center justify-center bg-primary-dark text-white text-[10px] font-bold rounded-full">
-                    {cartCount > 99 ? "99+" : cartCount}
-                  </span>
-                )}
-              </span>
-              Cart
+            <Link to="/products?filter_by=featured" className="nav-icon-btn hidden sm:flex" title="Favorites">
+              <FaHeart className="w-4 h-4" />
+            </Link>
+            <Link to="/cart" className="nav-icon-btn" title="Cart">
+              <FaShoppingCart className="w-4 h-4" />
+              {cartCount > 0 && (
+                <span className="absolute top-1 right-1 min-w-[1.1rem] h-[1.1rem] px-1 flex items-center justify-center bg-red-500 text-white text-[10px] font-bold rounded-full">
+                  {cartCount > 99 ? "99+" : cartCount}
+                </span>
+              )}
             </Link>
 
-            {userInfo?.isAdmin && (
-              <div className="relative">
+            {!userInfo ? (
+              <Link
+                to="/login"
+                className="hidden sm:inline-flex items-center gap-2 text-sm font-bold text-primary hover:bg-accent-pale py-2.5 px-4 rounded-2xl no-underline transition-colors"
+              >
+                Sign in
+              </Link>
+            ) : (
+              <div className="relative hidden sm:block">
                 <button
                   type="button"
-                  className="flex items-center gap-1 text-sm font-medium text-primary py-2 px-3 rounded-lg hover:bg-accent-pale"
-                  onClick={() => {
-                    setAdminOpen(!adminOpen);
-                    setUserOpen(false);
-                  }}
-                >
-                  Admin <FaChevronDown className={`w-3 transition-transform ${adminOpen ? "rotate-180" : ""}`} />
-                </button>
-                {adminOpen && (
-                  <div className="absolute right-0 mt-1 w-40 bg-white rounded-lg shadow-card-hover border border-accent-light/60 py-1 z-50">
-                    <Link to="/admin/userlist" className="block px-3 py-2 text-sm text-primary-dark hover:bg-accent-pale no-underline" onClick={() => setAdminOpen(false)}>Users</Link>
-                    <Link to="/admin/productlist" className="block px-3 py-2 text-sm text-primary-dark hover:bg-accent-pale no-underline" onClick={() => setAdminOpen(false)}>Products</Link>
-                    <Link to="/admin/orderlist" className="block px-3 py-2 text-sm text-primary-dark hover:bg-accent-pale no-underline" onClick={() => setAdminOpen(false)}>Orders</Link>
-                  </div>
-                )}
-              </div>
-            )}
-            {userInfo && (
-              <div className="relative">
-                <button
-                  type="button"
-                  className="flex items-center gap-1 text-sm font-medium text-primary py-2 px-3 rounded-lg hover:bg-accent-pale"
+                  className="flex items-center gap-2 pl-1 pr-3 py-1 rounded-2xl hover:bg-accent-pale transition-colors"
                   onClick={() => {
                     setUserOpen(!userOpen);
                     setAdminOpen(false);
                   }}
                 >
-                  <FaUser className="w-4 h-4" /> {userInfo.name?.split(" ")[0]}
-                  <FaChevronDown className={`w-3 transition-transform ${userOpen ? "rotate-180" : ""}`} />
+                  <span className="w-9 h-9 rounded-xl bg-cta-gradient text-white flex items-center justify-center text-xs font-bold">
+                    {(userInfo.name || "U").charAt(0).toUpperCase()}
+                  </span>
+                  <FaChevronDown className={`w-3 text-muted transition-transform ${userOpen ? "rotate-180" : ""}`} />
                 </button>
                 {userOpen && (
-                  <div className="absolute right-0 mt-1 w-36 bg-white rounded-lg shadow-card-hover border border-accent-light/60 py-1 z-50">
-                    <Link to="/profile" className="block px-3 py-2 text-sm text-primary-dark hover:bg-accent-pale no-underline" onClick={() => setUserOpen(false)}>Profile</Link>
-                    <button type="button" className="block w-full text-left px-3 py-2 text-sm text-red-600 hover:bg-red-50" onClick={logoutHandler}>Logout</button>
+                  <div className="absolute right-0 mt-2 w-44 bg-white rounded-2xl shadow-card-hover border border-accent-light py-2 z-50">
+                    <Link
+                      to="/profile"
+                      className="block px-4 py-2.5 text-sm font-medium text-ink hover:bg-accent-pale no-underline"
+                      onClick={() => setUserOpen(false)}
+                    >
+                      Profile
+                    </Link>
+                    <button
+                      type="button"
+                      className="block w-full text-left px-4 py-2.5 text-sm text-red-600 hover:bg-red-50"
+                      onClick={logoutHandler}
+                    >
+                      Logout
+                    </button>
                   </div>
                 )}
               </div>
             )}
+
+            {userInfo?.isAdmin && (
+              <div className="relative hidden lg:block">
+                <button
+                  type="button"
+                  className="text-xs font-bold text-primary py-2 px-3 rounded-xl hover:bg-accent-pale"
+                  onClick={() => setAdminOpen(!adminOpen)}
+                >
+                  Admin
+                </button>
+                {adminOpen && (
+                  <div className="absolute right-0 mt-2 w-40 bg-white rounded-2xl shadow-card-hover border border-accent-light py-2 z-50">
+                    <Link to="/admin/userlist" className="block px-4 py-2 text-sm no-underline text-ink hover:bg-accent-pale" onClick={() => setAdminOpen(false)}>Users</Link>
+                    <Link to="/admin/productlist" className="block px-4 py-2 text-sm no-underline text-ink hover:bg-accent-pale" onClick={() => setAdminOpen(false)}>Products</Link>
+                    <Link to="/admin/orderlist" className="block px-4 py-2 text-sm no-underline text-ink hover:bg-accent-pale" onClick={() => setAdminOpen(false)}>Orders</Link>
+                  </div>
+                )}
+              </div>
+            )}
+
+            <button
+              type="button"
+              className="md:hidden nav-icon-btn"
+              onClick={() => setMobileOpen(!mobileOpen)}
+              aria-label="Menu"
+            >
+              {mobileOpen ? <FaTimes /> : <FaBars />}
+            </button>
           </div>
         </div>
+
+        <div className="md:hidden mt-3">
+          <SearchBox />
+        </div>
+
         {mobileOpen && (
-          <div className="md:hidden flex gap-3 pt-3 border-t border-accent-light/50 mt-3">
-            {mainLinks.map(({ to, label }) => (
-              <Link key={label} to={to} className="text-sm font-medium text-primary no-underline" onClick={() => setMobileOpen(false)}>
-                {label}
+          <div className="md:hidden mt-4 pt-4 border-t border-accent-light flex flex-col gap-2">
+            <Link to="/products" className="py-2 font-semibold text-ink no-underline" onClick={() => setMobileOpen(false)}>Shop</Link>
+            <Link to="/about" className="py-2 text-ink-soft no-underline" onClick={() => setMobileOpen(false)}>About</Link>
+            {!userInfo && (
+              <Link to="/login" className="btn-primary text-center no-underline" onClick={() => setMobileOpen(false)}>
+                <FaUser /> Sign in
               </Link>
-            ))}
+            )}
           </div>
         )}
       </nav>
+      {!hideRibbon && <CategoryRibbon />}
     </header>
   );
 }

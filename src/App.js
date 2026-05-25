@@ -1,5 +1,5 @@
 import React from "react";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route, useLocation } from "react-router-dom";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
 import Toast from "./components/Toast";
@@ -28,27 +28,28 @@ import ContactScreen from "./screens/ContactScreen";
 import AIChatWidget from "./components/AIChatWidget";
 import AppBootstrap from "./components/AppBootstrap";
 
-function App() {
+function AppContent() {
+  const { pathname } = useLocation();
+  const isHome = pathname === "/";
+
   return (
-    <Router>
-      <AppBootstrap />
+    <>
       <Header />
       <Toast />
-      <main className="py-6 md:py-8 min-h-[80vh] relative bg-surface-muted">
+      <main
+        className={
+          isHome
+            ? "min-h-[80vh] relative bg-surface-muted"
+            : "py-4 md:py-6 min-h-[80vh] relative bg-surface-muted"
+        }
+      >
         <Routes>
           <Route path="/login" element={<LoginScreen />} />
           <Route path="/register" element={<RegisterScreen />} />
           <Route path="/forgot-password" element={<ForgotPasswordScreen />} />
           <Route path="/reset-password/:uid/:token" element={<ResetPasswordScreen />} />
           <Route path="/activate/:uid/:token" element={<ActivateScreen />} />
-          <Route
-            path="/"
-            element={
-              <MainLayout>
-                <HomeScreen />
-              </MainLayout>
-            }
-          />
+          <Route path="/" element={<HomeScreen />} />
           <Route
             path="/products"
             element={
@@ -173,6 +174,15 @@ function App() {
       </main>
       <AIChatWidget />
       <Footer />
+    </>
+  );
+}
+
+function App() {
+  return (
+    <Router>
+      <AppBootstrap />
+      <AppContent />
     </Router>
   );
 }
