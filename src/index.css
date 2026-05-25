@@ -4,7 +4,7 @@
 
 @layer base {
   body {
-    @apply font-sans text-primary-dark antialiased bg-surface-muted;
+    @apply font-sans text-ink antialiased bg-surface-muted;
     min-height: 100vh;
   }
   main {
@@ -14,40 +14,52 @@
 
 @layer components {
   .section-title {
-    @apply text-2xl md:text-3xl font-bold text-primary-dark tracking-tight;
+    @apply text-2xl md:text-3xl font-bold text-ink tracking-tight;
   }
   .section-subtitle {
     @apply text-muted text-sm md:text-base mt-1;
   }
   .btn-primary {
-    @apply inline-flex items-center justify-center gap-2 bg-primary hover:bg-primary-dark text-white font-semibold py-3 px-6 rounded-lg transition-all duration-200 shadow-soft;
+    @apply inline-flex items-center justify-center gap-2 bg-primary hover:bg-primary-dark text-white font-semibold py-3 px-6 rounded-2xl transition-all duration-200 shadow-pill hover:shadow-card-hover hover:-translate-y-0.5;
   }
   .btn-outline {
-    @apply inline-flex items-center justify-center gap-2 border-2 border-primary text-primary hover:bg-primary hover:text-white font-semibold py-2.5 px-6 rounded-lg transition-all duration-200;
+    @apply inline-flex items-center justify-center gap-2 border-2 border-primary/30 text-primary hover:bg-primary hover:text-white font-semibold py-2.5 px-6 rounded-2xl transition-all duration-200 bg-white;
+  }
+  .btn-ghost {
+    @apply inline-flex items-center justify-center gap-2 text-ink-soft hover:text-primary font-semibold py-2.5 px-5 rounded-2xl hover:bg-accent-pale transition-all;
   }
   .filter-pill {
-    @apply px-4 py-2 rounded-full text-sm font-medium transition-all duration-200 border;
+    @apply px-5 py-2.5 rounded-full text-sm font-semibold transition-all duration-200 whitespace-nowrap;
   }
   .filter-pill-active {
-    @apply bg-primary-dark text-white border-primary-dark;
+    @apply bg-primary text-white shadow-pill;
   }
   .filter-pill-inactive {
-    @apply bg-white text-primary border-accent-light hover:border-primary hover:bg-accent-pale;
+    @apply bg-white text-ink-soft border border-accent-light hover:border-primary/40 hover:text-primary hover:bg-accent-pale;
   }
   .glass-card {
-    @apply bg-white rounded-xl border border-accent-light/60 shadow-card;
+    @apply bg-white rounded-3xl border border-accent-light/80 shadow-card;
   }
   .product-card {
-    @apply bg-white rounded-xl border border-accent-light/50 shadow-soft hover:shadow-card-hover transition-all duration-300;
+    @apply bg-white rounded-3xl border border-accent-light/60 shadow-soft hover:shadow-card-hover transition-all duration-300;
+  }
+  .sidebar-card {
+    @apply bg-white rounded-3xl border border-accent-light/80 shadow-soft p-6;
+  }
+  .nav-icon-btn {
+    @apply relative flex items-center justify-center w-11 h-11 rounded-2xl text-ink-soft hover:text-primary hover:bg-accent-pale transition-all no-underline;
+  }
+  .search-pill {
+    @apply flex items-center w-full max-w-2xl mx-auto bg-white border border-accent-light rounded-full shadow-soft focus-within:shadow-glow focus-within:border-primary/40 transition-all;
   }
   .auth-panel-gradient {
-    background: linear-gradient(145deg, #263238 0%, #37474f 45%, #455a64 100%);
+    background: linear-gradient(145deg, #5b21b6 0%, #7c3aed 45%, #8b5cf6 100%);
   }
-  .auth-form-card {
-    @apply backdrop-blur-sm;
+  .badge-top {
+    @apply inline-flex items-center gap-1 text-[10px] font-bold uppercase tracking-wide text-amber-800 bg-amber-100 px-2.5 py-1 rounded-full;
   }
-  .auth-input {
-    @apply text-sm md:text-base;
+  .price-pill {
+    @apply inline-flex items-center font-bold text-primary border-2 border-primary/25 bg-accent-pale px-4 py-2 rounded-2xl text-sm md:text-base;
   }
 }
 
@@ -63,15 +75,13 @@ html {
   @apply outline-2 outline-offset-2 outline-primary;
 }
 
-.full-bleed {
+/* Full viewport width while keeping inner content in max-w-7xl */
+.hero-full-width {
   width: 100vw;
-  margin-left: calc(-50vw + 50%);
-  padding-left: 1rem;
-  padding-right: 1rem;
-}
-@media (min-width: 1280px) {
-  .full-bleed {
-    padding-left: max(1rem, calc((100vw - 1280px) / 2));
-    padding-right: max(1rem, calc((100vw - 1280px) / 2));
-  }
+  max-width: 100vw;
+  position: relative;
+  left: 50%;
+  right: 50%;
+  margin-left: -50vw;
+  margin-right: -50vw;
 }
