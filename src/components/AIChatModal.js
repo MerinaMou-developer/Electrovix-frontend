@@ -4,8 +4,15 @@ import { aiChat } from "../actions/aiActions";
 import Loader from "./Loader";
 import Message from "./Message";
 import { useNavigate } from "react-router-dom";
+import { FaRobot, FaTimes, FaPaperPlane } from "react-icons/fa";
+import { getProductImageUrl } from "../config";
 
-const SUGGESTIONS = ["best phone", "gaming laptop", "cheap mouse", "camera under 1000"];
+const SUGGESTIONS = [
+  "best phone under 60000",
+  "gaming laptop",
+  "wireless earbuds",
+  "camera deals",
+];
 
 function formatBDT(value) {
   const n = Number(value);
@@ -13,23 +20,36 @@ function formatBDT(value) {
   return `৳${n.toLocaleString()}`;
 }
 
-function snippet(text, n = 120) {
-  const t = (text || "").trim();
-  if (!t) return "";
-  return t.length > n ? t.slice(0, n) + "..." : t;
-}
-
-export default function AIChatModal({ open, onClose }) {
+export default function AIChatModal({
+  open,
+  onClose,
+  initialQuery = "",
+  onQueryConsumed,
+}) {
   const [message, setMessage] = useState("");
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const inputRef = useRef(null);
+  const consumedRef = useRef(false);
 
   const aiState = useSelector((state) => state.aiChat);
   const { loading, error, answer, products } = aiState;
 
   useEffect(() => {
-    if (open) setTimeout(() => inputRef.current?.focus(), 50);
+    if (open) setTimeout(() => inputRef.current?.focus(), 80);
+  }, [open]);
+
+  useEffect(() => {
+    if (!open || !initialQuery?.trim() || consumedRef.current) return;
+    consumedRef.current = true;
+    const q = initialQuery.trim();
+    setMessage(q);
+    dispatch(aiChat(q));
+    onQueryConsumed?.();
+  }, [open, initialQuery, dispatch, onQueryConsumed]);
+
+  useEffect(() => {
+    if (!open) consumedRef.current = false;
   }, [open]);
 
   useEffect(() => {
@@ -59,185 +79,162 @@ export default function AIChatModal({ open, onClose }) {
 
   return (
     <div
-      className="fixed inset-0 z-50"
+      className="fixed inset-0 z-50 flex items-end sm:items-center justify-center p-3 sm:p-6"
       aria-modal="true"
       role="dialog"
       onMouseDown={(e) => {
         if (e.target === e.currentTarget) onClose?.();
       }}
     >
-      <div className="absolute inset-0 bg-black/40 backdrop-blur-[2px]" />
+      <div className="absolute inset-0 bg-ink/40 backdrop-blur-sm" />
 
-      <div className="absolute right-4 bottom-24 md:right-8 md:bottom-28 w-[92vw] max-w-md">
-        <div className="bg-white rounded-2xl shadow-card-hover border border-accent-light/50 overflow-hidden">
-          {/* Header */}
-          <div className="px-4 py-3 bg-primary-dark text-white flex items-center justify-between">
-            <div className="flex items-center gap-2">
-              <span className="text-lg">🤖</span>
-              <div>
-                <p className="font-bold leading-5">AI Assistant</p>
-                <p className="text-xs opacity-90">Ask & get product suggestions</p>
-              </div>
+      <div className="relative w-full max-w-lg max-h-[90vh] flex flex-col bg-white rounded-[1.75rem] shadow-card-hover border border-primary/15 overflow-hidden animate-slide-up">
+        <div className="h-1 w-full bg-cta-gradient shrink-0" />
+
+        <div className="px-5 py-4 bg-white border-b border-accent-light flex items-center justify-between shrink-0">
+          <div className="flex items-center gap-3">
+            <div className="w-11 h-11 rounded-2xl bg-cta-gradient flex items-center justify-center text-white shadow-pill">
+              <FaRobot className="w-5 h-5" />
             </div>
+            <div>
+              <p className="font-bold text-ink leading-tight">Electrovix AI</p>
+              <p className="text-xs text-muted flex items-center gap-1.5">
+                <span className="w-2 h-2 rounded-full bg-emerald-500" />
+                Ask anything · hybrid search
+              </p>
+            </div>
+          </div>
+          <button
+            type="button"
+            onClick={onClose}
+            className="w-10 h-10 rounded-xl hover:bg-accent-pale text-ink-soft flex items-center justify-center transition-colors"
+            aria-label="Close"
+          >
+            <FaTimes className="w-4 h-4" />
+          </button>
+        </div>
 
-            <button
-              type="button"
-              onClick={onClose}
-              className="h-9 w-9 rounded-xl hover:bg-white/15 flex items-center justify-center"
-              title="Close"
-            >
-              ✕
-            </button>
+        <div className="flex-1 overflow-y-auto p-4 sm:p-5 space-y-4 min-h-0">
+          <div className="flex flex-wrap gap-2">
+            {SUGGESTIONS.map((s) => (
+              <button
+                key={s}
+                type="button"
+                onClick={() => askSuggestion(s)}
+                disabled={loading}
+                className="text-xs font-semibold px-3.5 py-2 rounded-full border border-accent-light bg-white text-ink-soft hover:border-primary hover:text-primary hover:bg-accent-pale transition disabled:opacity-50"
+              >
+                {s}
+              </button>
+            ))}
           </div>
 
-          {/* Content */}
-          <div className="p-4 space-y-3 max-h-[60vh] overflow-y-auto">
-            {/* Suggestions */}
-            <div className="flex flex-wrap gap-2">
-              {SUGGESTIONS.map((s) => (
-                <button
-                  key={s}
-                  type="button"
-                  onClick={() => askSuggestion(s)}
-                  className="text-xs px-3 py-1 rounded-full border border-primary/20 bg-primary/5 text-primary hover:bg-primary hover:text-white transition"
-                >
-                  {s}
-                </button>
-              ))}
+          {!answer && !loading && !error && (
+            <div className="rounded-2xl bg-accent-pale/60 border border-accent-light px-4 py-3 text-sm text-ink-soft">
+              Try natural language — e.g. &quot;best gaming laptop under 80000&quot;
             </div>
+          )}
 
-            {loading && <Loader />}
+          {loading && (
+            <div className="flex gap-2 items-center text-sm text-muted">
+              <Loader />
+              <span>Searching catalog…</span>
+            </div>
+          )}
 
-            {error && <Message variant="danger">{error}</Message>}
+          {error && <Message variant="danger">{error}</Message>}
 
-            {/* AI Answer */}
-            {answer && (
-              <div className="rounded-xl border border-slate-200 bg-slate-50 p-3">
-                <p className="text-slate-800 text-sm">
-                  <span className="font-bold text-primary">AI:</span> {answer}
-                </p>
-
-                {/* quick “links” */}
+          {answer && (
+            <div className="flex gap-2 items-start">
+              <span className="w-8 h-8 rounded-xl bg-cta-gradient flex items-center justify-center text-white shrink-0 mt-0.5">
+                <FaRobot className="w-3.5 h-3.5" />
+              </span>
+              <div className="flex-1 rounded-2xl rounded-tl-md border border-accent-light bg-white px-4 py-3 shadow-soft">
+                <p className="text-sm text-ink leading-relaxed">{answer}</p>
                 {products?.length > 0 && (
-                  <div className="mt-2 flex flex-wrap gap-2">
+                  <div className="mt-3 flex flex-wrap gap-2">
                     {products.slice(0, 3).map((p) => (
                       <button
                         key={p._id}
                         type="button"
                         onClick={() => goToProduct(p._id)}
-                        className="text-xs font-semibold px-3 py-1 rounded-full
-                                   border border-primary/20 bg-white text-primary
-                                   hover:bg-primary hover:text-white transition"
-                        title="Open product"
+                        className="text-xs font-semibold px-3 py-1.5 rounded-full bg-accent-pale text-primary hover:bg-primary hover:text-white transition"
                       >
-                        {p.name.length > 22 ? p.name.slice(0, 22) + "…" : p.name}
+                        {p.name.length > 24 ? `${p.name.slice(0, 24)}…` : p.name}
                       </button>
                     ))}
                   </div>
                 )}
               </div>
-            )}
+            </div>
+          )}
 
-            {/* Product cards inside chat */}
-            {products?.length > 0 && (
-              <div className="space-y-2">
-                <p className="text-xs font-semibold text-slate-600">
-                  Products you can open ({products.length})
-                </p>
-
-                {products.slice(0, 6).map((p) => {
-                  const priceToShow =
-                    p.discount_price != null ? p.discount_price : p.price;
-
-                  return (
-                    <div
-                      key={p._id}
-                      className="rounded-xl border border-slate-200 hover:border-primary/40 transition bg-white"
-                    >
-                      <button
-                        type="button"
-                        onClick={() => goToProduct(p._id)}
-                        className="w-full text-left p-3"
-                        title="Open product details"
-                      >
-                        <div className="flex gap-3">
-                          <img
-                            src={p.image}
-                            alt={p.name}
-                            className="h-14 w-14 rounded-lg object-cover border border-slate-200 bg-white"
-                          />
-                          <div className="min-w-0 flex-1">
-                            <p className="font-semibold text-slate-900 text-sm truncate">
-                              {p.name}
-                            </p>
-                            <p className="text-xs text-slate-500 truncate">
-                              {p.brand?.name ? `${p.brand.name} • ` : ""}
-                              {p.category?.name || ""}
-                            </p>
-
-                            <p className="mt-1 text-xs text-slate-600">
-                              {snippet(p.description, 110)}
-                            </p>
-
-                            <div className="mt-2 flex items-center gap-2 flex-wrap">
-                              <span className="text-sm font-bold text-primary">
-                                {formatBDT(priceToShow)}
-                              </span>
-                              {p.rating && (
-                                <span className="text-xs text-slate-600">
-                                  ⭐ {p.rating}
-                                </span>
-                              )}
-                              <span className="text-xs text-slate-500">
-                                stock: {p.countInStock}
-                              </span>
-                            </div>
-                          </div>
-                        </div>
-                      </button>
-
-                      {/* Footer action */}
-                      <div className="px-3 pb-3">
-                        <button
-                          type="button"
-                          onClick={() => goToProduct(p._id)}
-                          className="w-full bg-primary text-white text-sm font-semibold py-2 rounded-xl hover:opacity-90 transition"
-                        >
-                          View details
-                        </button>
+          {products?.length > 0 && (
+            <div className="space-y-2">
+              <p className="text-xs font-bold uppercase tracking-wider text-muted px-1">
+                Products ({products.length})
+              </p>
+              {products.slice(0, 5).map((p) => {
+                const priceToShow = p.discount_price != null ? p.discount_price : p.price;
+                return (
+                  <button
+                    key={p._id}
+                    type="button"
+                    onClick={() => goToProduct(p._id)}
+                    className="w-full flex gap-3 p-3 rounded-2xl border border-accent-light bg-white hover:border-primary/40 hover:shadow-soft transition text-left"
+                  >
+                    <img
+                      src={getProductImageUrl(p.image)}
+                      alt={p.name}
+                      className="h-14 w-14 rounded-xl object-cover bg-accent-pale border border-accent-light shrink-0"
+                      onError={(e) => {
+                        e.target.src = "https://via.placeholder.com/80?text=+";
+                      }}
+                    />
+                    <div className="min-w-0 flex-1">
+                      <p className="font-semibold text-ink text-sm truncate">{p.name}</p>
+                      <p className="text-xs text-muted truncate">
+                        {[p.brand?.name, p.category?.name].filter(Boolean).join(" · ")}
+                      </p>
+                      <div className="mt-1 flex items-center gap-2">
+                        <span className="text-sm font-bold text-primary">
+                          {formatBDT(priceToShow)}
+                        </span>
+                        {p.rating > 0 && (
+                          <span className="text-xs text-muted">⭐ {p.rating}</span>
+                        )}
                       </div>
                     </div>
-                  );
-                })}
-
-                {products.length > 6 && (
-                  <p className="text-xs text-slate-500">
-                    Showing top 6. Refine your query for better results.
-                  </p>
-                )}
-              </div>
-            )}
-          </div>
-
-          {/* Input */}
-          <div className="p-3 border-t border-slate-200">
-            <form onSubmit={submitHandler} className="flex gap-2">
-              <input
-                ref={inputRef}
-                className="flex-1 border border-slate-300 rounded-xl px-3 py-2 outline-none focus:ring-2 focus:ring-primary bg-white text-sm"
-                placeholder='Try: "best phone under 60000"'
-                value={message}
-                onChange={(e) => setMessage(e.target.value)}
-              />
-              <button
-                type="submit"
-                className="bg-primary text-white font-semibold px-4 py-2 rounded-xl hover:opacity-90 transition text-sm"
-              >
-                Ask
-              </button>
-            </form>
-          </div>
+                  </button>
+                );
+              })}
+            </div>
+          )}
         </div>
+
+        <form
+          onSubmit={submitHandler}
+          className="p-4 border-t border-accent-light bg-surface-muted/50 shrink-0"
+        >
+          <div className="flex gap-2">
+            <input
+              ref={inputRef}
+              className="flex-1 border border-accent-light rounded-2xl px-4 py-3 outline-none focus:ring-2 focus:ring-primary/25 focus:border-primary bg-white text-sm text-ink"
+              placeholder='e.g. "iPhone deals under 70000"'
+              value={message}
+              onChange={(e) => setMessage(e.target.value)}
+              disabled={loading}
+            />
+            <button
+              type="submit"
+              disabled={loading || !message.trim()}
+              className="shrink-0 bg-cta-gradient text-white font-bold px-5 py-3 rounded-2xl hover:opacity-90 transition disabled:opacity-50 flex items-center gap-2"
+            >
+              <FaPaperPlane className="w-4 h-4" />
+              <span className="hidden sm:inline">Ask</span>
+            </button>
+          </div>
+        </form>
       </div>
     </div>
   );
